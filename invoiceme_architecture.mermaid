@@ -1,0 +1,281 @@
+graph TB
+    subgraph "Client Layer - Frontend (Next.js + TypeScript)"
+        Browser[Web Browser]
+        
+        subgraph "UI Components"
+            Pages[Pages/Routes]
+            Components[Reusable Components]
+            Layout[Layout Components]
+        end
+        
+        subgraph "MVVM Layer"
+            ViewModels[ViewModels<br/>- useCustomerViewModel<br/>- useInvoiceViewModel<br/>- usePaymentViewModel<br/>- useAuthViewModel]
+        end
+        
+        subgraph "Service Layer"
+            APIService[API Service<br/>Axios/Fetch Config]
+            CustomerService[Customer Service]
+            InvoiceService[Invoice Service]
+            PaymentService[Payment Service]
+            AuthService[Auth Service<br/>JWT Token Management]
+        end
+        
+        subgraph "State Management"
+            AuthContext[Auth Context<br/>User State]
+            LocalStorage[Local Storage<br/>JWT Token]
+        end
+    end
+    
+    subgraph "Network"
+        HTTPS[HTTPS/REST API]
+        CORS[CORS Configuration]
+    end
+    
+    subgraph "Server Layer - Backend (Spring Boot + Java)"
+        
+        subgraph "API Layer - Controllers"
+            CustomerControllers[Customer Controllers<br/>- CreateCustomerController<br/>- GetCustomerController<br/>- UpdateCustomerController<br/>- DeleteCustomerController<br/>- ListCustomersController]
+            InvoiceControllers[Invoice Controllers<br/>- CreateInvoiceController<br/>- GetInvoiceController<br/>- UpdateInvoiceController<br/>- MarkAsSentController<br/>- RecordPaymentController<br/>- ListInvoicesController]
+            PaymentControllers[Payment Controllers<br/>- GetPaymentController<br/>- ListPaymentsController]
+            AuthController[Auth Controller<br/>- LoginController]
+        end
+        
+        subgraph "Security Layer"
+            JWTFilter[JWT Filter]
+            SecurityConfig[Security Config<br/>BCrypt Password Encoder]
+            JWTService[JWT Service<br/>Token Generation/Validation]
+        end
+        
+        subgraph "Application Layer - CQRS"
+            subgraph "Commands (Write)"
+                CustomerCommands[Customer Commands<br/>- CreateCustomerCommand<br/>- UpdateCustomerCommand<br/>- DeleteCustomerCommand]
+                InvoiceCommands[Invoice Commands<br/>- CreateInvoiceCommand<br/>- UpdateInvoiceCommand<br/>- MarkInvoiceAsSentCommand<br/>- RecordPaymentCommand]
+            end
+            
+            subgraph "Queries (Read)"
+                CustomerQueries[Customer Queries<br/>- GetCustomerQuery<br/>- ListCustomersQuery]
+                InvoiceQueries[Invoice Queries<br/>- GetInvoiceQuery<br/>- ListInvoicesQuery]
+                PaymentQueries[Payment Queries<br/>- GetPaymentQuery<br/>- ListPaymentsQuery]
+            end
+            
+            subgraph "Handlers"
+                CommandHandlers[Command Handlers<br/>Business Logic Execution]
+                QueryHandlers[Query Handlers<br/>Data Retrieval]
+            end
+        end
+        
+        subgraph "Domain Layer - DDD"
+            subgraph "Customer Aggregate"
+                Customer[Customer Entity<br/>Aggregate Root]
+                CustomerId[CustomerId<br/>Value Object]
+                Email[Email<br/>Value Object]
+                Address[Address<br/>Value Object]
+            end
+            
+            subgraph "Invoice Aggregate"
+                Invoice[Invoice Entity<br/>Aggregate Root<br/>State Machine Logic]
+                InvoiceId[InvoiceId<br/>Value Object]
+                InvoiceStatus[InvoiceStatus<br/>DRAFT/SENT/PAID]
+                LineItem[LineItem Entity]
+                Money[Money<br/>Value Object]
+            end
+            
+            subgraph "Payment Aggregate"
+                Payment[Payment Entity]
+                PaymentId[PaymentId<br/>Value Object]
+            end
+            
+            subgraph "Domain Repositories (Interfaces)"
+                CustomerRepo[CustomerRepository]
+                InvoiceRepo[InvoiceRepository]
+                PaymentRepo[PaymentRepository]
+            end
+        end
+        
+        subgraph "Infrastructure Layer"
+            subgraph "Persistence"
+                JPACustomer[JpaCustomerRepository<br/>Implementation]
+                JPAInvoice[JpaInvoiceRepository<br/>Implementation]
+                JPAPayment[JpaPaymentRepository<br/>Implementation]
+                JPAUser[UserRepository]
+            end
+            
+            subgraph "Entity Mapping"
+                JPAAnnotations[JPA Annotations<br/>@Entity, @Table, @Id]
+            end
+        end
+        
+        subgraph "Cross-Cutting Concerns"
+            ExceptionHandler[Global Exception Handler]
+            DTOMapper[DTO Mapper]
+            Validation[Validation<br/>@Valid, @NotNull]
+        end
+    end
+    
+    subgraph "Database Layer"
+        PostgreSQL[(PostgreSQL Database)]
+        
+        subgraph "Tables"
+            CustomersTable[customers]
+            InvoicesTable[invoices]
+            LineItemsTable[line_items]
+            PaymentsTable[payments]
+            UsersTable[users]
+        end
+    end
+    
+    subgraph "Development Environment"
+        Docker[Docker Container<br/>PostgreSQL]
+        DockerCompose[docker-compose.yml]
+    end
+    
+    subgraph "Testing"
+        IntegrationTests[Integration Tests<br/>- CustomerFlowTest<br/>- InvoiceFlowTest<br/>- PaymentFlowTest]
+        UnitTests[Unit Tests<br/>- Domain Tests<br/>- Handler Tests]
+        E2ETests[E2E Tests<br/>Playwright/Cypress]
+    end
+    
+    subgraph "Deployment - AWS"
+        EC2[AWS EC2<br/>Application Server]
+        RDS[AWS RDS<br/>PostgreSQL]
+        S3[AWS S3<br/>Static Assets]
+        CloudFront[CloudFront CDN]
+    end
+    
+    subgraph "AI Development Tools"
+        Cursor[Cursor AI]
+        Copilot[GitHub Copilot]
+        Claude[Claude AI]
+    end
+    
+    %% Client to Server Connections
+    Browser --> Pages
+    Pages --> ViewModels
+    ViewModels --> APIService
+    APIService --> CustomerService
+    APIService --> InvoiceService
+    APIService --> PaymentService
+    APIService --> AuthService
+    
+    AuthService --> LocalStorage
+    AuthService --> AuthContext
+    ViewModels --> AuthContext
+    
+    CustomerService --> HTTPS
+    InvoiceService --> HTTPS
+    PaymentService --> HTTPS
+    AuthService --> HTTPS
+    
+    %% Server Entry Points
+    HTTPS --> JWTFilter
+    JWTFilter --> SecurityConfig
+    SecurityConfig --> CustomerControllers
+    SecurityConfig --> InvoiceControllers
+    SecurityConfig --> PaymentControllers
+    HTTPS --> AuthController
+    
+    %% Authentication Flow
+    AuthController --> JWTService
+    JWTService --> JPAUser
+    JPAUser --> UsersTable
+    
+    %% Customer Flow
+    CustomerControllers --> CustomerCommands
+    CustomerControllers --> CustomerQueries
+    CustomerCommands --> CommandHandlers
+    CustomerQueries --> QueryHandlers
+    CommandHandlers --> Customer
+    QueryHandlers --> Customer
+    Customer --> CustomerRepo
+    CustomerRepo --> JPACustomer
+    JPACustomer --> CustomersTable
+    
+    %% Invoice Flow
+    InvoiceControllers --> InvoiceCommands
+    InvoiceControllers --> InvoiceQueries
+    InvoiceCommands --> CommandHandlers
+    InvoiceQueries --> QueryHandlers
+    CommandHandlers --> Invoice
+    QueryHandlers --> Invoice
+    Invoice --> InvoiceRepo
+    InvoiceRepo --> JPAInvoice
+    JPAInvoice --> InvoicesTable
+    JPAInvoice --> LineItemsTable
+    
+    %% Payment Flow
+    PaymentControllers --> PaymentQueries
+    InvoiceControllers --> Payment
+    PaymentQueries --> QueryHandlers
+    QueryHandlers --> Payment
+    Payment --> PaymentRepo
+    PaymentRepo --> JPAPayment
+    JPAPayment --> PaymentsTable
+    
+    %% Domain Relationships
+    Invoice --> LineItem
+    Invoice --> InvoiceStatus
+    Invoice --> Money
+    Customer --> CustomerId
+    Customer --> Email
+    Customer --> Address
+    Payment --> PaymentId
+    
+    %% Cross-Cutting
+    CustomerControllers --> ExceptionHandler
+    InvoiceControllers --> ExceptionHandler
+    PaymentControllers --> ExceptionHandler
+    CustomerControllers --> DTOMapper
+    InvoiceControllers --> DTOMapper
+    PaymentControllers --> DTOMapper
+    CustomerControllers --> Validation
+    InvoiceControllers --> Validation
+    
+    %% Database Connections
+    CustomersTable --> PostgreSQL
+    InvoicesTable --> PostgreSQL
+    LineItemsTable --> PostgreSQL
+    PaymentsTable --> PostgreSQL
+    UsersTable --> PostgreSQL
+    
+    %% Development Environment
+    Docker --> PostgreSQL
+    DockerCompose --> Docker
+    
+    %% Testing Connections
+    IntegrationTests -.-> CustomerControllers
+    IntegrationTests -.-> InvoiceControllers
+    IntegrationTests -.-> PaymentControllers
+    UnitTests -.-> Customer
+    UnitTests -.-> Invoice
+    E2ETests -.-> Browser
+    
+    %% Deployment
+    Browser --> CloudFront
+    CloudFront --> S3
+    HTTPS --> EC2
+    EC2 --> RDS
+    
+    %% AI Tools
+    Cursor -.-> Pages
+    Cursor -.-> CustomerControllers
+    Copilot -.-> CommandHandlers
+    Claude -.-> Customer
+    
+    %% Styling
+    classDef frontend fill:#61dafb,stroke:#333,stroke-width:2px,color:#000
+    classDef backend fill:#6db33f,stroke:#333,stroke-width:2px,color:#000
+    classDef database fill:#336791,stroke:#333,stroke-width:2px,color:#fff
+    classDef security fill:#ff6b6b,stroke:#333,stroke-width:2px,color:#fff
+    classDef domain fill:#ffd93d,stroke:#333,stroke-width:2px,color:#000
+    classDef infrastructure fill:#a8dadc,stroke:#333,stroke-width:2px,color:#000
+    classDef aws fill:#ff9900,stroke:#333,stroke-width:2px,color:#000
+    classDef ai fill:#b19cd9,stroke:#333,stroke-width:2px,color:#000
+    
+    class Browser,Pages,Components,Layout,ViewModels,APIService,CustomerService,InvoiceService,PaymentService,AuthService,AuthContext,LocalStorage frontend
+    class CustomerControllers,InvoiceControllers,PaymentControllers,AuthController,CustomerCommands,InvoiceCommands,CustomerQueries,InvoiceQueries,PaymentQueries,CommandHandlers,QueryHandlers backend
+    class PostgreSQL,CustomersTable,InvoicesTable,LineItemsTable,PaymentsTable,UsersTable,Docker,DockerCompose database
+    class JWTFilter,SecurityConfig,JWTService security
+    class Customer,CustomerId,Email,Address,Invoice,InvoiceId,InvoiceStatus,LineItem,Money,Payment,PaymentId,CustomerRepo,InvoiceRepo,PaymentRepo domain
+    class JPACustomer,JPAInvoice,JPAPayment,JPAUser,JPAAnnotations,ExceptionHandler,DTOMapper,Validation infrastructure
+    class EC2,RDS,S3,CloudFront aws
+    class Cursor,Copilot,Claude ai
