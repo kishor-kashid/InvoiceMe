@@ -38,11 +38,13 @@
 
 ### Backend - Shared Components
 - ✅ Exception handling (BusinessException, NotFoundException)
-- ✅ Global exception handler
-- ✅ Error response DTOs
-- ✅ Validation error responses
+- ✅ Global exception handler (handles all exception types)
+- ✅ Error response DTOs (ErrorResponse, ValidationErrorResponse)
+- ✅ Validation error responses with field-level details
 - ✅ DTO mapper utility
-- ✅ Input validation on all DTOs
+- ✅ Comprehensive input validation on all DTOs
+- ✅ Custom date range validation (due date >= issue date)
+- ✅ Validation test suite (7 test cases)
 
 ### Documentation
 - ✅ README.md with setup instructions
@@ -125,10 +127,7 @@
 - ✅ PR6-PR10: Customer API
 - ✅ PR11-PR12: Invoice API
 - ✅ PR13: Payment API
-- ✅ PR14: Exception Handling & Validation (partially - exception handling done)
-
-### In Progress
-- ⏳ PR14: Additional validation testing
+- ✅ PR14: Exception Handling & Validation (fully complete)
 
 ### Next Up
 - 📋 PR15: Authentication & Security
@@ -151,8 +150,11 @@
 
 ## Test Coverage
 
-- ✅ Unit tests: Customer and Invoice domain logic
-- ⏳ Integration tests: Not yet implemented
+- ✅ Unit tests: Customer domain logic (9 tests)
+- ✅ Unit tests: Invoice domain logic (14 tests)
+- ✅ Validation tests: DTO validation (7 tests)
+- ✅ Total: 30 tests, all passing
+- ⏳ Integration tests: Not yet implemented (PR16)
 - ⏳ End-to-end tests: Not yet implemented
 - ⏳ Frontend tests: Not yet implemented
 

@@ -1,6 +1,7 @@
 package com.invoiceme.features.invoices.createInvoice;
 
 import jakarta.validation.Valid;
+import jakarta.validation.constraints.AssertTrue;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
@@ -34,6 +35,17 @@ public class CreateInvoiceDto {
     private String currency;
     
     private String notes;
+    
+    /**
+     * Validates that due date is after or equal to issue date
+     */
+    @AssertTrue(message = "Due date must be after or equal to issue date")
+    private boolean isValidDateRange() {
+        if (issueDate == null || dueDate == null) {
+            return true; // Let @NotNull handle null checks
+        }
+        return !dueDate.isBefore(issueDate);
+    }
     
     // Constructors
     public CreateInvoiceDto() {
@@ -101,16 +113,18 @@ public class CreateInvoiceDto {
         @NotBlank(message = "Line item description is required")
         private String description;
         
+        @NotNull(message = "Quantity is required")
         @Positive(message = "Quantity must be greater than zero")
-        private int quantity;
+        private Integer quantity;
         
+        @NotNull(message = "Unit price is required")
         @Positive(message = "Unit price must be greater than zero")
         private Double unitPrice;
         
         public LineItemDto() {
         }
         
-        public LineItemDto(String description, int quantity, Double unitPrice) {
+        public LineItemDto(String description, Integer quantity, Double unitPrice) {
             this.description = description;
             this.quantity = quantity;
             this.unitPrice = unitPrice;
@@ -124,11 +138,11 @@ public class CreateInvoiceDto {
             this.description = description;
         }
         
-        public int getQuantity() {
+        public Integer getQuantity() {
             return quantity;
         }
         
-        public void setQuantity(int quantity) {
+        public void setQuantity(Integer quantity) {
             this.quantity = quantity;
         }
         

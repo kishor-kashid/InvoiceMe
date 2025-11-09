@@ -123,13 +123,18 @@ npm run type-check
 - **Modularity**: Code organized by features (VSA)
 - **Documentation**: Well-documented code with JavaDoc
 - **DTOs**: Explicit DTOs at all API boundaries
-- **Validation**: Input validation using Jakarta Bean Validation
-- **Error Handling**: Consistent error responses
+- **Validation**: Comprehensive input validation using Jakarta Bean Validation
+  - Field-level: `@NotBlank`, `@NotNull`, `@Email`, `@Positive`, `@NotEmpty`
+  - Class-level: `@AssertTrue` for complex business rules
+  - Nested validation: `@Valid` for collections and nested objects
+- **Error Handling**: Consistent error responses with field-level validation details
 
 ### Testing Requirements
-- **Unit Tests**: Domain logic must be unit tested
-- **Integration Tests**: End-to-end workflows must be integration tested
+- **Unit Tests**: Domain logic must be unit tested (23 tests currently passing)
+- **Validation Tests**: DTO validation scenarios tested (7 tests currently passing)
+- **Integration Tests**: End-to-end workflows must be integration tested (planned for PR16)
 - **Test Coverage**: Maintain above 80% coverage
+- **Current Status**: 30 tests passing, all builds successful
 
 ### Security Constraints
 - **Authentication**: JWT-based (planned for PR15)

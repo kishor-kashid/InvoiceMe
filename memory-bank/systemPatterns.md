@@ -84,6 +84,7 @@ features/
 - **Exceptions**: `BusinessException`, `NotFoundException`, `GlobalExceptionHandler`
 - **DTOs**: Error response DTOs (`ErrorResponse`, `ValidationErrorResponse`)
 - **Mappers**: `DtoMapper` for converting domain entities to DTOs
+- **Validation**: Jakarta Bean Validation with custom validators
 
 ## Key Design Patterns
 
@@ -170,7 +171,8 @@ Customer (1) ──< (many) Invoice (1) ──< (many) Payment
 ### 2. Exception Handling
 - Custom exceptions (`BusinessException`, `NotFoundException`)
 - Global exception handler for consistent error responses
-- Validation errors returned with field-level details
+- Handles: NotFoundException (404), BusinessException (400), IllegalArgumentException (400), IllegalStateException (409), MethodArgumentNotValidException (400), and generic Exception (500)
+- Validation errors returned with field-level details via `ValidationErrorResponse`
 
 ### 3. Repository Pattern
 - Domain layer defines repository interfaces
@@ -181,6 +183,14 @@ Customer (1) ──< (many) Invoice (1) ──< (many) Payment
 - Handlers marked with `@Transactional`
 - Read operations use `@Transactional(readOnly = true)`
 - Commands use full transaction support
+
+### 5. Input Validation
+- Jakarta Bean Validation annotations on all DTOs
+- Field-level validation: `@NotBlank`, `@NotNull`, `@Email`, `@Positive`, `@NotEmpty`
+- Class-level validation: `@AssertTrue` for complex business rules (e.g., date ranges)
+- Nested object validation: `@Valid` annotation for collections and nested DTOs
+- All controllers use `@Valid` annotation on request bodies
+- Validation errors automatically handled by `GlobalExceptionHandler`
 
 ## Frontend Architecture (MVVM)
 
