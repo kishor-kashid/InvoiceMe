@@ -1,0 +1,88 @@
+Description: Core InvoiceMe project patterns and architectural principles
+Globs: **/*.java,**/*.tsx,**/*.ts
+
+# InvoiceMe Project Rules
+
+## Architecture Principles
+
+### Domain-Driven Design (DDD)
+- Domain entities (Customer, Invoice, Payment) are aggregate roots
+- Business logic belongs in domain entities, not in handlers or controllers
+- Value objects (Email, Address, Money, IDs) are immutable
+- Repository interfaces defined in domain layer, implementations in infrastructure
+
+### Command Query Responsibility Segregation (CQRS)
+- Commands (write operations) return void or acknowledgment
+- Queries (read operations) return data only, never modify state
+- Separate command and query handlers in different vertical slices
+- Commands: createCustomer/, updateCustomer/, deleteCustomer/, createInvoice/, etc.
+- Queries: getCustomer/, listCustomers/, getInvoice/, listInvoices/, etc.
+
+### Vertical Slice Architecture (VSA)
+- Organize code by features/use cases, not technical layers
+- Each feature contains: Controller, Handler, Command/Query, DTO
+- Feature location: `backend/src/main/java/com/invoiceme/features/`
+- Example structure: `features/customers/createCustomer/` contains all components for that feature
+
+## Code Organization
+
+### Backend Structure
+```
+domain/          # Pure business logic, no framework dependencies
+features/        # Vertical slices (CQRS commands/queries)
+infrastructure/ # Framework implementations (JPA, Security)
+shared/          # Cross-cutting concerns (exceptions, mappers)
+config/          # Application configuration
+```
+
+### Frontend Structure (MVVM)
+```
+types/          # TypeScript type definitions
+services/       # API communication layer
+viewmodels/     # Presentation logic (MVVM pattern)
+components/     # React UI components
+app/            # Next.js App Router pages
+```
+
+## Key Patterns
+
+### Money Object Handling
+- Backend sends monetary values as `{amount: number, currency: string}` objects
+- Frontend must extract `.amount` and `.currency` properties for display
+- Never assume Money is a number - always access object properties
+
+### Form Validation
+- Backend: Jakarta Bean Validation on all DTOs
+- Frontend: Client-side validation in ViewModels with backend error mapping
+- Validation includes field-level (required, format) and business rules (date ranges, payment amounts)
+
+### Error Handling
+- Backend: GlobalExceptionHandler with consistent error responses
+- Frontend: Error handling in ViewModels with user-friendly messages
+- Validation errors include field-level details via ValidationErrorResponse
+
+### Authentication
+- JWT-based stateless authentication
+- Token stored in localStorage, auto-attached to requests via axios interceptors
+- Protected routes use ProtectedRoute wrapper component
+- Default admin: username `admin`, password `admin123` (change in production!)
+
+## Testing Requirements
+- Domain logic: Unit tests in domain layer
+- Integration tests: End-to-end workflows
+- All tests must pass before merging
+- Current status: 52 tests passing (23 domain + 7 validation + 14 integration + 8 auth)
+
+## File Naming Conventions
+- Java: PascalCase for classes, camelCase for methods
+- TypeScript: PascalCase for components/types, camelCase for functions/variables
+- Test files: `*Test.java` for unit tests, `*IntegrationTest.java` for integration tests
+
+## Dependencies
+- Backend: Spring Boot 3.2.0, Java 17, PostgreSQL, JJWT 0.12.3
+- Frontend: Next.js 14, React 18, TypeScript 5.3.3, Tailwind CSS, Axios
+
+## Current Status
+- Backend: 100% complete (PR1-PR16), all 52 tests passing
+- Frontend: PR17-PR26 complete (setup, auth, customer, invoice management)
+- Remaining: Payment pages (PR27-28), UI polish (PR29), deployment (PR31-34)

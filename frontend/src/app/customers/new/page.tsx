@@ -9,7 +9,6 @@ import Layout from '@/components/layout/Layout';
 import ProtectedRoute from '@/components/auth/ProtectedRoute';
 import useCustomerViewModel from '@/viewmodels/useCustomerViewModel';
 import CustomerForm from '@/components/customers/CustomerForm';
-import { Spinner } from '@/components/ui/Spinner';
 
 export default function NewCustomerPage() {
   const router = useRouter();

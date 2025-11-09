@@ -183,7 +183,13 @@ npm run type-check
 - eslint: ^8.56.0
 ```
 
-**Note**: Frontend dependencies are installed and actively used. API service layer fully implemented with axios.
+**Note**: Frontend dependencies are installed and actively used. API service layer fully implemented with axios. All customer and invoice management pages functional.
+
+**Frontend Data Types**:
+- **Money Objects**: Backend sends monetary values as `{amount: number, currency: string}`. Frontend types (`types/invoice.ts`) correctly define `Money` interface and use it for `unitPrice`, `total`, `totalAmount`, `paidAmount`, and `balance` fields.
+- **Invoice Types**: Invoice includes `invoiceNumber`, `currency`, `notes`, `lineItems` (with Money objects using `total` property), and lifecycle status.
+- **Form Data**: ViewModels use form-specific types (e.g., `InvoiceFormData`) that convert to API request types (e.g., `CreateInvoiceRequest`).
+- **Payment Types**: Payment includes `amount`, `paymentDate` (as string), `invoiceId`, and timestamps. Payment dates are converted to LocalDateTime format (`YYYY-MM-DDTHH:mm:ss`) for backend compatibility.
 
 ## Development Workflow
 

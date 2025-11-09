@@ -77,7 +77,7 @@ const Modal = ({
     <Fragment>
       {/* Overlay */}
       <div
-        className="fixed inset-0 z-50 bg-black bg-opacity-50 transition-opacity"
+        className="fixed inset-0 z-50 bg-black bg-opacity-50 transition-opacity animate-fade-in"
         onClick={handleOverlayClick}
         aria-hidden="true"
       />
@@ -88,7 +88,7 @@ const Modal = ({
           {/* Modal Content */}
           <div
             className={cn(
-              'relative w-full rounded-xl bg-white shadow-2xl',
+              'relative w-full rounded-xl bg-white shadow-2xl animate-scale-in',
               'transform transition-all',
               sizeStyles[size]
             )}

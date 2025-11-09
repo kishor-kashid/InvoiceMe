@@ -61,7 +61,7 @@ export default function Home() {
         <div className="mb-8 flex items-center justify-between">
           <div>
             <h1 className="text-3xl font-bold text-gray-900 mb-2">Dashboard</h1>
-            <p className="text-gray-600">Welcome back! Here's what's happening with your business</p>
+            <p className="text-gray-600">Welcome back! Here&apos;s what&apos;s happening with your business</p>
           </div>
           <Button
             variant="ghost"
@@ -245,7 +245,7 @@ export default function Home() {
                       <div className="flex items-center space-x-3 ml-4">
                         <div className="text-right">
                           <p className="font-semibold text-gray-900">
-                            {formatCurrency(invoice.totalAmount)}
+                            {formatCurrency(invoice.totalAmount.amount, invoice.totalAmount.currency)}
                           </p>
                           <p className="text-xs text-gray-500">
                             {formatDate(invoice.issueDate)}
@@ -321,11 +321,6 @@ export default function Home() {
               )}
             </CardContent>
           </Card>
-        </div>
-
-        {/* System Info */}
-        <div className="text-center text-sm text-gray-500">
-          <p>Connected to Backend API: <span className="font-mono text-primary-600">http://localhost:8080</span></p>
         </div>
       </div>
       </Layout>

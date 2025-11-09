@@ -56,7 +56,7 @@ export const useDashboardViewModel = () => {
 
       const totalRevenue = invoices
         .filter(inv => inv.status === InvoiceStatus.PAID)
-        .reduce((sum, inv) => sum + inv.totalAmount, 0);
+        .reduce((sum, inv) => sum + inv.totalAmount.amount, 0);
 
       setStats({
         totalCustomers: customers.length,
@@ -87,7 +87,7 @@ export const useDashboardViewModel = () => {
             id: invoice.id,
             type: 'payment_received',
             title: 'Payment Received',
-            description: `Invoice ${invoice.invoiceNumber} - $${invoice.totalAmount.toFixed(2)}`,
+            description: `Invoice ${invoice.invoiceNumber} - $${invoice.totalAmount.amount.toFixed(2)}`,
             timestamp: invoice.updatedAt,
             icon: 'payment',
           });

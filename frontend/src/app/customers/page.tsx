@@ -10,7 +10,7 @@ import Layout from '@/components/layout/Layout';
 import ProtectedRoute from '@/components/auth/ProtectedRoute';
 import useCustomerViewModel from '@/viewmodels/useCustomerViewModel';
 import CustomerList from '@/components/customers/CustomerList';
-import { Card, CardHeader, CardTitle, CardContent, Button, Input, ConfirmModal } from '@/components/ui';
+import { Card, CardContent, Button, Input, ConfirmModal } from '@/components/ui';
 
 export default function CustomersPage() {
   const router = useRouter();

@@ -221,16 +221,29 @@ Customer (1) ──< (many) Invoice (1) ──< (many) Payment
   - Layout components (Header, Sidebar, Layout)
   - UI component library (Button, Input, Card, Table, Badge, Modal, Spinner)
   - Customer components (CustomerList, CustomerForm)
-  - Pages (Login, Dashboard, Customers List, Customer Create)
+  - Invoice components (InvoiceList, InvoiceForm, LineItemForm, InvoiceStatusBadge)
+  - Pages (Login, Dashboard, Customers List/Create/Detail/Edit, Invoices List/Create/Detail/Edit)
 - **ViewModels**: Custom hooks (`viewmodels/`) - ✅ IMPLEMENTED
   - useAuthViewModel (authentication logic)
   - useDashboardViewModel (dashboard data and calculations)
   - useCustomerViewModel (customer CRUD, search/filter, form validation)
+  - useInvoiceViewModel (invoice CRUD, form validation, invoice lifecycle, payment recording)
 - **Services**: API communication layer (`services/`) - ✅ COMPLETE
   - Base API configuration (axios with interceptors)
   - customerService, invoiceService, paymentService, authService
 
 **Pattern**: ViewModels mediate between Views and Services, handling presentation logic and state management.
 
-**Current Status**: Frontend foundation complete with full MVVM implementation. Type system, API services, UI components, authentication, dashboard, and customer management all functional. Customer list and create pages complete (PR22). Ready for customer detail/edit pages (PR23) and invoice management (PR24+).
+**Current Status**: Frontend foundation complete with full MVVM implementation. Type system, API services, UI components, authentication, dashboard, customer management, invoice management, and payment management all functional. Customer CRUD complete (PR22-PR23). Invoice CRUD complete (PR24-PR26). Payment management complete (PR27-PR28). Ready for UI polish (PR29+) and deployment (PR30+).
+
+**Key Frontend Patterns**:
+- **Money Object Handling**: Backend sends monetary values as `{amount: number, currency: string}` objects. Frontend components correctly extract `.amount` and `.currency` properties for display and calculations.
+- **Form Validation**: Client-side validation in ViewModels with backend error mapping. Validation includes field-level (required, format) and business rules (date ranges, payment amounts).
+- **Component Reusability**: CustomerForm and InvoiceForm support both create and edit modes. LineItemForm is reusable for dynamic line item management. PaymentForm is reusable for payment recording.
+- **Status Management**: InvoiceStatusBadge component provides consistent status display across all pages. Status-based conditional rendering for actions (Mark as Sent, Record Payment).
+- **Suspense Boundaries**: Next.js App Router requires Suspense boundaries for components using `useSearchParams`. Proper placement ensures correct server-side rendering.
+- **Date/Time Handling**: Payment dates are converted from HTML date input format (`YYYY-MM-DD`) to LocalDateTime format (`YYYY-MM-DDTHH:mm:ss`) for backend compatibility.
+- **Type Safety**: LineItem interface uses `total: Money` instead of `amount: Money` to match backend DTO structure.
+- **Authentication Flow**: Logout dropdown in Header provides user menu with logout functionality. Integrates with AuthContext for token management and navigation.
+- **Hydration Warnings**: Input components use `suppressHydrationWarning` to handle browser extension attributes (password managers, form fillers) without console warnings.
 
