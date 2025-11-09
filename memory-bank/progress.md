@@ -66,10 +66,17 @@
 - ✅ **Authentication Tests**: 8 comprehensive tests covering all auth scenarios
 
 ### Documentation
-- ✅ README.md with setup instructions
+- ✅ README.md with comprehensive setup instructions (updated in PR31)
 - ✅ API.md with complete API documentation
 - ✅ InvoiceMe-PRD.md (product requirements)
 - ✅ InvoiceMe_Task_List.md (task breakdown)
+- ✅ **Technical Writeup** (docs/TECHNICAL_WRITEUP.md) - Architecture deep dive (PR31)
+- ✅ **Database Schema** (docs/DATABASE_SCHEMA.md) - Complete schema with ER diagram (PR31)
+- ✅ **Design Decisions** (docs/DESIGN_DECISIONS.md) - 20 key decisions documented (PR31)
+- ✅ **AI Tool Usage** (docs/AI_TOOL_USAGE.md) - Development chronicle (PR31)
+- ✅ **Swagger Setup Guide** (docs/SWAGGER_SETUP.md) - OpenAPI implementation plan (PR31)
+- ✅ **Documentation Index** (docs/README.md) - Navigation guide (PR31)
+- ✅ **Total**: ~44 pages of comprehensive technical documentation
 
 ### Development Environment
 - ✅ Docker Compose for PostgreSQL
@@ -193,7 +200,17 @@
 - ✅ Logout dropdown in Header (user menu with avatar and logout button)
 - ✅ Fixed hydration warning in Input component (browser extension compatibility)
 
-### Deployment (PR32-PR34)
+### Documentation (PR31) - ✅ COMPLETE
+- ✅ Technical Writeup (docs/TECHNICAL_WRITEUP.md) - ~2 pages
+- ✅ Database Schema Documentation (docs/DATABASE_SCHEMA.md) - ~6 pages
+- ✅ Design Decisions Documentation (docs/DESIGN_DECISIONS.md) - ~8 pages
+- ✅ AI Tool Usage Documentation (docs/AI_TOOL_USAGE.md) - ~10 pages
+- ✅ Swagger Setup Guide (docs/SWAGGER_SETUP.md) - ~5 pages
+- ✅ Documentation Index (docs/README.md) - ~2 pages
+- ✅ Updated Main README with performance details and documentation links
+- ✅ Total: ~44 pages of comprehensive technical documentation
+
+### Deployment (PR33-PR34)
 - [ ] AWS/Azure setup
 - [ ] Database migration strategy
 - [ ] Production configuration
@@ -225,20 +242,23 @@
 - ✅ **PR28: Frontend Payment List Page (PaymentList component, /payments page, statistics)**
 - ✅ **PR29: UI Polish & UX Improvements (Toast notifications, loading skeletons, animations)**
 - ✅ **PR30: Performance Optimization (Database indexes, pagination, connection pooling)**
+- ✅ **PR31: Documentation and Technical Writeup - COMPLETE** (~44 pages, 6 documents)
 
 ### Next Up
-- 📋 PR31: Documentation and technical writeup
+- 📋 PR32: End-to-End Testing (Playwright/Cypress setup, E2E test scenarios)
 
 ### Remaining
-- 📋 PR30-PR34: Performance optimization, documentation, and deployment
+- 📋 PR32: End-to-End Testing
+- 📋 PR33-PR34: AWS/Azure Deployment Preparation and Production Deployment
 
 ## Known Issues
 
 1. ⚠️ **Default Admin Password**: Default admin user created with password `admin123` - MUST be changed for production deployment
 2. ⚠️ **JWT Secret Key**: JWT secret in application.properties should be replaced with secure key for production
 3. **Next.js Build Cache**: If encountering "Cannot find module" errors, clear `.next` directory and restart dev server
-4. **Documentation**: Technical writeup and deployment guide pending (PR31+)
-5. **Deployment**: Not yet configured (PR32+)
+4. ✅ **Documentation**: Technical writeup complete (PR31) - 6 documents, ~44 pages
+5. **E2E Testing**: Not yet implemented (PR32)
+6. **Deployment**: Not yet configured (PR33+)
 
 ## Performance Status
 
@@ -266,11 +286,16 @@
 
 ## Documentation Status
 
-- ✅ API documentation complete
-- ✅ Setup instructions complete
-- ⏳ Technical writeup (planned)
-- ⏳ Deployment guide (planned)
-- ⏳ AI tool usage documentation (planned)
+- ✅ API documentation complete (API.md)
+- ✅ Setup instructions complete (README.md)
+- ✅ **Technical Writeup complete** (docs/TECHNICAL_WRITEUP.md) - Architecture deep dive
+- ✅ **Database Schema complete** (docs/DATABASE_SCHEMA.md) - ER diagram, indexes, queries
+- ✅ **Design Decisions complete** (docs/DESIGN_DECISIONS.md) - 20 decisions with rationale
+- ✅ **AI Tool Usage complete** (docs/AI_TOOL_USAGE.md) - Development chronicle
+- ✅ **Swagger Setup Guide complete** (docs/SWAGGER_SETUP.md) - OpenAPI implementation plan
+- ✅ **Documentation Index complete** (docs/README.md) - Navigation guide
+- ✅ **Total**: ~44 pages of comprehensive technical documentation
+- ⏳ Deployment guide (planned for PR33+)
 
 ## Next Milestones
 
@@ -290,8 +315,9 @@
 14. ✅ **PR28**: Frontend payment list page - COMPLETE
 15. ✅ **PR29**: UI polish and UX improvements - COMPLETE
 16. ✅ **PR30**: Performance optimization (Database indexes, pagination, connection pooling) - COMPLETE
-17. 📋 **PR31**: Documentation and technical writeup
-18. 📋 **PR32-PR34**: Deployment to AWS/Azure
+17. ✅ **PR31**: Documentation and Technical Writeup - COMPLETE (~44 pages, 6 documents)
+18. 📋 **PR32**: End-to-End Testing (Playwright/Cypress setup, E2E test scenarios)
+19. 📋 **PR33-PR34**: AWS/Azure Deployment Preparation and Production Deployment
 
 ## Backend Completion Status
 

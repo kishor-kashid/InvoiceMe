@@ -14,8 +14,10 @@ InvoiceMe is a full-stack invoicing application that manages **Customers**, **In
 - ✅ Payment Recording and Balance Tracking
 - ✅ RESTful API with CQRS pattern
 - ✅ Modern React/Next.js Frontend with MVVM
-- ✅ JWT Authentication
-- ✅ PostgreSQL Database
+- ✅ JWT Authentication & Authorization
+- ✅ PostgreSQL Database with Optimized Indexes
+- ✅ Pagination Support (20 items per page)
+- ✅ Comprehensive Test Coverage (52 tests, 100% passing)
 
 ## 🏗️ Architecture
 
@@ -159,6 +161,13 @@ Or on Windows PowerShell:
 
 The backend API will be available at `http://localhost:8080`
 
+**Verify backend is running:**
+```bash
+curl http://localhost:8080/actuator/health
+```
+
+You should see `{"status":"UP"}`.
+
 ### 5. Frontend Setup
 
 Open a new terminal, navigate to the frontend directory, and install dependencies:
@@ -180,7 +189,7 @@ The frontend will be available at `http://localhost:3000`
 
 ### Backend Tests
 
-Run all backend tests:
+**Run all tests (52 tests, 100% passing):**
 
 ```bash
 cd backend
@@ -192,15 +201,30 @@ Or on Windows PowerShell:
 .\mvnw.cmd test
 ```
 
-Run integration tests:
+**Test breakdown:**
+- Domain tests: 23 tests (Customer: 9, Invoice: 14)
+- Validation tests: 7 tests
+- Integration tests: 14 tests (Customer, Invoice, Payment flows)
+- Authentication tests: 8 tests
+
+**Run specific test suites:**
 
 ```bash
-./mvnw test -Dtest=*IntegrationTest
+# Domain tests only
+./mvnw test -Dtest=com.invoiceme.domain.*
+
+# Integration tests only
+./mvnw test -Dtest=com.invoiceme.integration.*
+
+# Authentication tests only
+./mvnw test -Dtest=com.invoiceme.features.auth.*
 ```
 
 Or on Windows PowerShell:
 ```powershell
-.\mvnw.cmd test -Dtest=*IntegrationTest
+.\mvnw.cmd test -Dtest=com.invoiceme.domain.*
+.\mvnw.cmd test -Dtest=com.invoiceme.integration.*
+.\mvnw.cmd test -Dtest=com.invoiceme.features.auth.*
 ```
 
 ### Frontend Tests
@@ -210,6 +234,12 @@ Run frontend type checking:
 ```bash
 cd frontend
 npm run type-check
+```
+
+**Build frontend for production:**
+
+```bash
+npm run build
 ```
 
 ## 📁 Project Structure
@@ -263,7 +293,16 @@ See **[API.md](API.md)** for complete API documentation with request/response ex
 - `GET /api/invoices/{id}/payments` - List payments for invoice
 
 **Payments:**
+- `GET /api/payments` - List all payments (with optional pagination)
 - `GET /api/payments/{id}` - Get payment by ID
+
+**Authentication:**
+- `POST /api/auth/login` - Login and receive JWT token
+
+**Pagination:**
+All list endpoints support optional pagination:
+- Add `?page=0&size=20&sortBy=createdAt&direction=desc` to any list endpoint
+- Omit `page` parameter to get all results (backward compatible)
 
 ## 🐳 Docker Commands
 
@@ -380,18 +419,57 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 
 ## 📚 Additional Documentation
 
-- **[API Documentation](API.md)** - Complete REST API reference
-- [Product Requirements Document](InvoiceMe-PRD.md)
-- [Task List & PR Breakdown](InvoiceMe_Task_List.md)
-- Technical Writeup (coming soon)
+### Core Documentation
+- **[API Documentation](API.md)** - Complete REST API reference with examples
+- **[Technical Writeup](docs/TECHNICAL_WRITEUP.md)** - Architecture deep dive (DDD, CQRS, VSA)
+- **[Database Schema](docs/DATABASE_SCHEMA.md)** - Complete schema with ER diagram
+- **[Design Decisions](docs/DESIGN_DECISIONS.md)** - Architectural choices and rationale
+- **[AI Tool Usage](docs/AI_TOOL_USAGE.md)** - How AI tools accelerated development
+
+### Project Management
+- [Product Requirements Document](InvoiceMe-PRD.md) - Business requirements
+- [Task List & PR Breakdown](InvoiceMe_Task_List.md) - Development roadmap
+- [Production Setup Guide](backend/PRODUCTION_SETUP.md) - Deployment instructions
+- [Environment Variables Guide](backend/ENVIRONMENT_VARIABLES.md) - Configuration reference
 
 ## 🎯 Success Criteria
 
-- ✅ All CRUD operations working
-- ✅ Invoice lifecycle properly implemented
-- ✅ API responses under 200ms
-- ✅ Passing integration tests
-- ✅ Clean, modular, documented code
-- ✅ Deployed to AWS/Azure
+- ✅ **Architecture**: Clear implementation of DDD, CQRS, and VSA patterns
+- ✅ **Functionality**: All CRUD operations working with proper invoice lifecycle
+- ✅ **Code Quality**: Modular, documented, with DTOs at boundaries
+- ✅ **Performance**: Database indexes, pagination, optimized connection pooling
+- ✅ **Testing**: 52 tests passing (100% pass rate)
+- ✅ **Security**: JWT authentication with BCrypt password hashing
+- ✅ **Documentation**: Comprehensive technical documentation
+- 📋 **Deployment**: AWS/Azure deployment (in progress)
+
+## 📈 Performance Optimizations
+
+The application includes several performance optimizations:
+
+**Database Indexes (11 strategic indexes)**:
+- Customer: email, name, created_at
+- Invoice: customer_id, status, invoice_number, dates, composite indexes
+- Payment: invoice_id, payment_date, created_at
+
+**Pagination**:
+- Default 20 items per page
+- Reduces data transfer for large datasets
+- Backward compatible (works without pagination parameter)
+
+**Connection Pooling**:
+- HikariCP with 20 max connections
+- Connection lifecycle management (30-minute max lifetime)
+- Leak detection enabled (2-minute threshold)
+
+**JPA Optimizations**:
+- Batch operations (size: 20)
+- Ordered inserts/updates for efficiency
+
+**Expected Performance**:
+- Single resource queries: < 50ms
+- Paginated list queries: < 100ms
+- Create/Update operations: < 150ms
+- Complex operations: < 200ms ✅
 
 ---
