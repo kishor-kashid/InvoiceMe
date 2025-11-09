@@ -56,7 +56,7 @@ export const useDashboardViewModel = () => {
 
       const totalRevenue = invoices
         .filter(inv => inv.status === InvoiceStatus.PAID)
-        .reduce((sum, inv) => sum + inv.totalAmount, 0);
+        .reduce((sum, inv) => sum + inv.totalAmount.amount, 0);
 
       setStats({
         totalCustomers: customers.length,

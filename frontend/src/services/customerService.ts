@@ -7,7 +7,6 @@ import {
   Customer,
   CreateCustomerRequest,
   UpdateCustomerRequest,
-  CustomerListResponse,
 } from '@/types';
 
 const CUSTOMERS_ENDPOINT = '/customers';
@@ -61,7 +60,7 @@ export const customerService = {
    * Search customers by name or email
    * Note: Currently returns all customers - filtering is done client-side
    */
-  search: async (query: string): Promise<Customer[]> => {
+  search: async (_query: string): Promise<Customer[]> => {
     const response = await apiClient.get<Customer[]>(CUSTOMERS_ENDPOINT);
     return response.data;
   },

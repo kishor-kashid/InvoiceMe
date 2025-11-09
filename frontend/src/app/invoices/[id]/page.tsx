@@ -10,8 +10,9 @@ import Layout from '@/components/layout/Layout';
 import ProtectedRoute from '@/components/auth/ProtectedRoute';
 import useInvoiceViewModel from '@/viewmodels/useInvoiceViewModel';
 import InvoiceStatusBadge from '@/components/invoices/InvoiceStatusBadge';
-import { Card, CardHeader, CardTitle, CardContent, Button, Table, TableHeader, TableBody, TableRow, TableHead, TableCell, Modal, Input, Spinner, ConfirmModal } from '@/components/ui';
-import { InvoiceStatus, CreatePaymentRequest, Customer } from '@/types';
+import PaymentForm from '@/components/payments/PaymentForm';
+import { Card, CardHeader, CardTitle, CardContent, Button, Table, TableHeader, TableBody, TableRow, TableHead, TableCell, Modal, Spinner, ConfirmModal } from '@/components/ui';
+import { InvoiceStatus, Customer } from '@/types';
 import { formatDate, formatCurrency } from '@/lib/utils';
 import { customerService } from '@/services';
 
@@ -32,11 +33,9 @@ export default function InvoiceDetailPage() {
   } = useInvoiceViewModel();
 
   const [showPaymentModal, setShowPaymentModal] = useState(false);
-  const [paymentAmount, setPaymentAmount] = useState('');
-  const [paymentDate, setPaymentDate] = useState(new Date().toISOString().split('T')[0]);
-  const [paymentError, setPaymentError] = useState<string | null>(null);
   const [showMarkAsSentConfirm, setShowMarkAsSentConfirm] = useState(false);
   const [customer, setCustomer] = useState<Customer | null>(null);
+  const [paymentError, setPaymentError] = useState<string | null>(null);
 
   // Load invoice and customer
   useEffect(() => {
@@ -68,32 +67,14 @@ export default function InvoiceDetailPage() {
     }
   };
 
-  const handleRecordPayment = async (): Promise<void> => {
+  const handleRecordPayment = async (amount: number, paymentDate: string): Promise<void> => {
     if (!invoiceId || !selectedInvoice) return;
 
     setPaymentError(null);
 
-    const amount = parseFloat(paymentAmount);
-    if (isNaN(amount) || amount <= 0) {
-      setPaymentError('Please enter a valid payment amount');
-      return;
-    }
-
-    if (amount > selectedInvoice.balance.amount) {
-      setPaymentError(`Payment amount cannot exceed balance of ${formatCurrency(selectedInvoice.balance.amount, selectedInvoice.balance.currency)}`);
-      return;
-    }
-
-    const paymentRequest: CreatePaymentRequest = {
-      amount,
-      paymentDate,
-    };
-
-    const success = await recordPayment(invoiceId, paymentRequest);
+    const success = await recordPayment(invoiceId, { amount, paymentDate });
     if (success) {
       setShowPaymentModal(false);
-      setPaymentAmount('');
-      setPaymentDate(new Date().toISOString().split('T')[0]);
       setPaymentError(null);
     } else {
       setPaymentError('Failed to record payment. Please try again.');
@@ -257,7 +238,7 @@ export default function InvoiceDetailPage() {
                           <TableCell className="text-right">{item.quantity}</TableCell>
                           <TableCell className="text-right">{formatCurrency(item.unitPrice.amount, item.unitPrice.currency)}</TableCell>
                           <TableCell className="text-right font-medium">
-                            {formatCurrency(item.amount.amount, item.amount.currency)}
+                            {item.total ? formatCurrency(item.total.amount, item.total.currency) : formatCurrency(item.quantity * item.unitPrice.amount, item.unitPrice.currency)}
                           </TableCell>
                         </TableRow>
                       ))}
@@ -351,7 +332,6 @@ export default function InvoiceDetailPage() {
             message="Are you sure you want to mark this invoice as sent? Once sent, the invoice cannot be edited."
             confirmText="Mark as Sent"
             cancelText="Cancel"
-            variant="primary"
             isLoading={isSubmitting}
           />
 
@@ -365,60 +345,16 @@ export default function InvoiceDetailPage() {
             title="Record Payment"
             size="md"
           >
-            <div className="space-y-4">
-              <div>
-                <p className="text-sm text-gray-600 mb-2">
-                  Outstanding Balance: <span className="font-semibold text-gray-900">
-                    {formatCurrency(selectedInvoice.balanceAmount)}
-                  </span>
-                </p>
-              </div>
-              <Input
-                label="Payment Amount"
-                type="number"
-                min="0.01"
-                step="0.01"
-                max={selectedInvoice.balanceAmount}
-                value={paymentAmount}
-                onChange={(e) => {
-                  setPaymentAmount(e.target.value);
-                  setPaymentError(null);
-                }}
-                error={paymentError}
-                required
-              />
-              <Input
-                label="Payment Date"
-                type="date"
-                value={paymentDate}
-                onChange={(e) => setPaymentDate(e.target.value)}
-                required
-              />
-              {paymentError && (
-                <div className="rounded-lg bg-danger-50 border border-danger-200 p-3">
-                  <p className="text-sm text-danger-600">{paymentError}</p>
-                </div>
-              )}
-              <div className="flex justify-end gap-3 pt-4">
-                <Button
-                  variant="secondary"
-                  onClick={() => {
-                    setShowPaymentModal(false);
-                    setPaymentError(null);
-                  }}
-                  disabled={isSubmitting}
-                >
-                  Cancel
-                </Button>
-                <Button
-                  variant="primary"
-                  onClick={handleRecordPayment}
-                  disabled={isSubmitting || !paymentAmount}
-                >
-                  {isSubmitting ? 'Recording...' : 'Record Payment'}
-                </Button>
-              </div>
-            </div>
+            <PaymentForm
+              invoice={selectedInvoice}
+              onSubmit={handleRecordPayment}
+              onCancel={() => {
+                setShowPaymentModal(false);
+                setPaymentError(null);
+              }}
+              isSubmitting={isSubmitting}
+              error={paymentError}
+            />
           </Modal>
         </div>
       </Layout>

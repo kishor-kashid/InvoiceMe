@@ -4,7 +4,6 @@
 
 'use client';
 
-import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import Layout from '@/components/layout/Layout';
 import ProtectedRoute from '@/components/auth/ProtectedRoute';
@@ -21,7 +20,6 @@ export default function InvoicesPage() {
     error,
     statusFilter,
     setStatusFilter,
-    loadInvoices,
   } = useInvoiceViewModel();
 
   return (

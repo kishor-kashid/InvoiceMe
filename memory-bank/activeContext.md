@@ -2,7 +2,7 @@
 
 ## Current Work Focus
 
-**Status**: Backend fully complete (PRs 1-16). Frontend foundation complete (PR17-21). Frontend customer management complete (PR22-23). Frontend invoice management complete (PR24-26). All 52 backend tests passing. Frontend has complete API integration, authentication, interactive dashboard, customer CRUD operations, and invoice CRUD operations. Ready for payment management pages (PR27+) and UI polish (PR29+).
+**Status**: Backend fully complete (PRs 1-16). Frontend foundation complete (PR17-21). Frontend customer management complete (PR22-23). Frontend invoice management complete (PR24-26). Frontend payment management complete (PR27-28). All 52 backend tests passing. Frontend has complete API integration, authentication, interactive dashboard, customer CRUD operations, invoice CRUD operations, and payment recording/list pages. Ready for UI polish (PR29) and deployment (PR30+).
 
 **Last Completed**: 
 - PR1: Project setup and infrastructure (Docker, Maven, Next.js)
@@ -195,7 +195,22 @@
 - ✅ Money object handling (extracting amount and currency from backend responses)
 - ✅ Line items pre-population from existing invoice data
 
-### Key Fixes (PR23-PR26)
+### Completed (PR27-PR28)
+- ✅ usePaymentViewModel (MVVM pattern, payment recording logic, validation)
+- ✅ PaymentForm component (reusable form with validation, balance checking, date validation)
+- ✅ Payment modal integrated into invoice detail page (refactored for cleaner code)
+- ✅ Payment list page (/payments) with summary statistics
+- ✅ PaymentList component (professional table with invoice links)
+- ✅ Payment navigation in sidebar
+- ✅ Full payment management workflow (record, view, track)
+- ✅ Client-side validation (amount > 0, amount <= balance, date not in future)
+- ✅ Server-side validation error handling
+- ✅ Empty state handling
+- ✅ Refresh functionality
+- ✅ Payment statistics (total payments, total amount, average payment)
+- ✅ Payment-to-invoice navigation
+
+### Key Fixes (PR23-PR28)
 - ✅ Fixed Money object handling throughout frontend (backend sends `{amount, currency}` objects)
 - ✅ Fixed "$NaN" display issues by correctly accessing Money object properties
 - ✅ Fixed validation errors when creating invoices (added invoiceNumber, currency, notes fields)
@@ -204,12 +219,16 @@
 - ✅ Fixed customer name display on invoice detail page
 - ✅ Fixed apostrophe escaping in dashboard text
 - ✅ Fixed Badge variant types (DRAFT status uses 'gray' variant)
+- ✅ Fixed missing backend endpoint: Created `GET /api/payments` endpoint for payment list
+- ✅ Fixed LineItem type mismatch: Changed `amount` to `total` to match backend DTO
+- ✅ Fixed payment date format: Converting date to LocalDateTime format (`YYYY-MM-DDTHH:mm:ss`)
+- ✅ Removed backend API connection status text from dashboard page
 
-### Upcoming (PR27+)
-- [ ] Frontend payment management pages (list, record payment) (PR27-28)
-- [ ] UI polish and UX improvements (PR29)
-- [ ] Performance optimization (PR30)
-- [ ] Deployment to AWS/Azure (PR31-34)
+### Upcoming (PR29+)
+- [ ] UI polish and UX improvements (loading states, error toasts, animations) (PR29)
+- [ ] Performance optimization (pagination, caching) (PR30)
+- [ ] Documentation and technical writeup (PR31)
+- [ ] Deployment to AWS/Azure (PR32-34)
 
 ## Active Decisions and Considerations
 
@@ -272,9 +291,8 @@ All backend endpoints implemented, secured, and documented:
 2. ⚠️ **JWT Secret**: JWT secret key in application.properties should be changed for production
 3. ⚠️ **User Management**: No user registration or multi-user system - single business owner model (by design)
 4. **Next.js Build Cache**: If encountering module resolution errors, clear `.next` directory and restart dev server
-5. **Payment Pages**: Not yet implemented (PR27-28)
-6. **UI Polish**: Loading states, error toasts, and UX improvements pending (PR29)
-7. **Deployment**: Not yet configured (PR31+)
+5. **UI Polish**: Loading states, error toasts, and UX improvements pending (PR29)
+6. **Deployment**: Not yet configured (PR31+)
 
 ## Development Environment
 

@@ -15,7 +15,6 @@ interface InvoiceListProps {
   isLoading?: boolean;
   statusFilter?: InvoiceStatus | 'ALL';
   onStatusFilterChange?: (status: InvoiceStatus | 'ALL') => void;
-  onDelete?: (id: string) => void;
 }
 
 export default function InvoiceList({
@@ -23,7 +22,6 @@ export default function InvoiceList({
   isLoading,
   statusFilter = 'ALL',
   onStatusFilterChange,
-  onDelete,
 }: InvoiceListProps) {
   const router = useRouter();
 

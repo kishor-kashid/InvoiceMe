@@ -291,13 +291,13 @@ export default function CustomerDetailPage() {
                     <div>
                       <dt className="text-sm font-medium text-gray-500">Total Amount</dt>
                       <dd className="mt-1 text-2xl font-bold text-gray-900">
-                        {formatCurrency(invoices.reduce((sum, inv) => sum + inv.totalAmount, 0))}
+                        {formatCurrency(invoices.reduce((sum, inv) => sum + inv.totalAmount.amount, 0))}
                       </dd>
                     </div>
                     <div>
                       <dt className="text-sm font-medium text-gray-500">Outstanding Balance</dt>
                       <dd className="mt-1 text-2xl font-bold text-red-600">
-                        {formatCurrency(invoices.reduce((sum, inv) => sum + inv.balanceAmount, 0))}
+                        {formatCurrency(invoices.reduce((sum, inv) => sum + inv.balance.amount, 0))}
                       </dd>
                     </div>
                     <div>

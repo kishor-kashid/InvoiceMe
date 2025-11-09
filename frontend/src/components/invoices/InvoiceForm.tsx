@@ -71,7 +71,7 @@ export default function InvoiceForm({
       description: item.description,
       quantity: item.quantity,
       unitPrice: item.unitPrice.amount,
-      amount: item.amount.amount,
+      amount: item.total ? item.total.amount : item.quantity * item.unitPrice.amount,
     })) || [{
       description: '',
       quantity: 1,
@@ -104,7 +104,7 @@ export default function InvoiceForm({
           description: item.description,
           quantity: item.quantity,
           unitPrice: item.unitPrice.amount,
-          amount: item.amount.amount,
+          amount: item.total ? item.total.amount : item.quantity * item.unitPrice.amount,
         }))
       );
     } else if (defaultCustomerId) {

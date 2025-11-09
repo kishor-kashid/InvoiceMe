@@ -18,7 +18,7 @@ export interface LineItem {
   description: string;
   quantity: number;
   unitPrice: Money;
-  amount: Money;
+  total: Money;
 }
 
 export interface Invoice {
@@ -45,14 +45,14 @@ export interface CreateInvoiceRequest {
   issueDate: string;
   dueDate: string;
   currency: string;
-  lineItems: Omit<LineItem, 'id' | 'amount'>[];
+  lineItems: Omit<LineItem, 'id' | 'total'>[];
   notes?: string;
 }
 
 export interface UpdateInvoiceRequest {
   issueDate: string;
   dueDate: string;
-  lineItems: Omit<LineItem, 'id' | 'amount'>[];
+  lineItems: Omit<LineItem, 'id' | 'total'>[];
   notes?: string;
 }
 

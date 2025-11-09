@@ -322,11 +322,6 @@ export default function Home() {
             </CardContent>
           </Card>
         </div>
-
-        {/* System Info */}
-        <div className="text-center text-sm text-gray-500">
-          <p>Connected to Backend API: <span className="font-mono text-primary-600">http://localhost:8080</span></p>
-        </div>
       </div>
       </Layout>
     </ProtectedRoute>

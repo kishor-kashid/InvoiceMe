@@ -151,10 +151,17 @@
 - ✅ Money object handling (correctly accessing amount and currency properties)
 - ✅ Customer name fetching and display on invoice detail page
 
-### Frontend - Payment Management (PR29-PR30)
-- [ ] Payment list page
-- [ ] Record payment form
-- [ ] Payment ViewModel
+### Frontend - Payment Management (PR27-PR28)
+- ✅ usePaymentViewModel (MVVM pattern, payment recording logic, payment statistics)
+- ✅ PaymentForm component (reusable form with validation, balance checking, date validation)
+- ✅ Payment modal integrated into invoice detail page (refactored for cleaner code)
+- ✅ Payment list page (/payments) with summary statistics (total payments, total amount, average)
+- ✅ PaymentList component (professional table with invoice links, customer links)
+- ✅ Payment-to-invoice navigation
+- ✅ Client-side validation (amount > 0, amount <= balance, date not in future)
+- ✅ Server-side validation error handling
+- ✅ Empty state handling
+- ✅ Refresh functionality
 
 ### Frontend - Dashboard (PR21)
 - ✅ Dashboard page with real API data
@@ -193,21 +200,23 @@
 - ✅ **PR24: Frontend Invoice Management - List & Create (InvoiceList, InvoiceForm, LineItemForm, useInvoiceViewModel)**
 - ✅ **PR25: Frontend Invoice Management - Details & Actions (Invoice detail page, Mark as Sent, Record Payment)**
 - ✅ **PR26: Frontend Invoice Management - Edit (Invoice edit page for DRAFT invoices)**
+- ✅ **PR27: Frontend Payment Recording (PaymentForm, usePaymentViewModel, modal integration)**
+- ✅ **PR28: Frontend Payment List Page (PaymentList component, /payments page, statistics)**
 
 ### Next Up
-- 📋 PR27: Frontend Payment Recording (Payment form, payment modal integration)
+- 📋 PR29: UI Polish & UX Improvements (loading states, error toasts, animations)
 
 ### Remaining
-- 📋 PR28-PR34: Payment list, UI polish, performance optimization, and deployment
+- 📋 PR29-PR34: UI polish, performance optimization, documentation, and deployment
 
 ## Known Issues
 
 1. ⚠️ **Default Admin Password**: Default admin user created with password `admin123` - MUST be changed for production deployment
 2. ⚠️ **JWT Secret Key**: JWT secret in application.properties should be replaced with secure key for production
 3. **Next.js Build Cache**: If encountering "Cannot find module" errors, clear `.next` directory and restart dev server
-4. **Payment Pages**: Not yet implemented (PR27-28)
+4. **Payment Pagination**: Payment list loads all payments at once (no pagination yet) - will be addressed in PR30
 5. **UI Polish**: Loading states, error toasts, and UX improvements pending (PR29)
-6. **Deployment**: Not yet configured (PR31+)
+6. **Deployment**: Not yet configured (PR32+)
 
 ## Performance Status
 
@@ -250,8 +259,8 @@
 10. ✅ **PR24**: Frontend invoice management - list and create (COMPLETE)
 11. ✅ **PR25**: Frontend invoice management - details and actions (COMPLETE)
 12. ✅ **PR26**: Frontend invoice management - edit (COMPLETE)
-13. 📋 **PR27**: Frontend payment recording (Payment form, payment modal integration)
-14. 📋 **PR28**: Frontend payment list page
+13. ✅ **PR27**: Frontend payment recording (Payment form, payment modal integration) - COMPLETE
+14. ✅ **PR28**: Frontend payment list page - COMPLETE
 15. 📋 **PR29**: UI polish and UX improvements
 16. 📋 **PR30**: Performance optimization
 17. 📋 **PR31-PR34**: Deployment to AWS/Azure
@@ -295,6 +304,21 @@
 - Customer deletion functionality
 - Invoice list display on customer detail page
 
+**✅ Frontend payment management (PR27-PR28) is complete:**
+- Payment list page with summary statistics (total payments, total amount, average payment)
+- PaymentList component (professional table with invoice links, customer links)
+- PaymentForm component (reusable form with validation, balance checking, date validation)
+- usePaymentViewModel (MVVM pattern, payment recording logic, payment statistics)
+- Payment recording modal in invoice detail page (refactored for cleaner code)
+- Payment navigation in sidebar
+- Client-side validation (amount > 0, amount <= balance, date not in future)
+- Server-side validation error handling
+- Empty state handling
+- Refresh functionality
+- Payment-to-invoice navigation
+- Payment date format fix (converting date to LocalDateTime for backend)
+- All payment management features functional
+
 **✅ Frontend invoice management (PR24-PR26) is complete:**
 - Invoice list page with status filtering and summary statistics
 - Invoice detail page with complete invoice information, line items, and payments
@@ -310,4 +334,8 @@
 - Customer name fetching and display on invoice detail page
 - All validation errors resolved (invoiceNumber, currency, notes fields)
 - All "$NaN" display issues resolved
+- LineItem type fix (changed `amount` to `total` to match backend DTO)
+- Payment date format fix (LocalDateTime conversion)
+- Backend payment list endpoint created (GET /api/payments)
+- Dashboard cleanup (removed backend API connection status text)
 

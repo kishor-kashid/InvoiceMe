@@ -120,7 +120,10 @@ export const useInvoiceViewModel = () => {
         lineItems: formData.lineItems.map(item => ({
           description: item.description.trim(),
           quantity: item.quantity,
-          unitPrice: item.unitPrice,
+          unitPrice: {
+            amount: item.unitPrice,
+            currency: formData.currency
+          },
         })),
         notes: formData.notes?.trim() || undefined,
       };
@@ -180,7 +183,10 @@ export const useInvoiceViewModel = () => {
         lineItems: formData.lineItems.map(item => ({
           description: item.description.trim(),
           quantity: item.quantity,
-          unitPrice: item.unitPrice,
+          unitPrice: {
+            amount: item.unitPrice,
+            currency: formData.currency
+          },
         })),
         notes: formData.notes?.trim() || undefined,
       };
