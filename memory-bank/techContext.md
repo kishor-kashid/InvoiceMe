@@ -21,8 +21,9 @@
 - **Maven Wrapper**: Project-specific Maven distribution (no global installation required)
 
 #### Security & Authentication
-- **JWT (jjwt 0.12.3)**: JSON Web Token library
-- **BCrypt**: Password encryption (planned for PR15)
+- **JWT (jjwt 0.12.3)**: JSON Web Token library for stateless authentication
+- **BCrypt**: Password encryption via Spring Security
+- **Spring Security 6**: Authentication and authorization framework
 
 #### Development Tools
 - **Lombok**: Reduces boilerplate code
@@ -130,15 +131,23 @@ npm run type-check
 - **Error Handling**: Consistent error responses with field-level validation details
 
 ### Testing Requirements
-- **Unit Tests**: Domain logic must be unit tested (23 tests currently passing)
-- **Validation Tests**: DTO validation scenarios tested (7 tests currently passing)
-- **Integration Tests**: End-to-end workflows must be integration tested (planned for PR16)
+- **Unit Tests**: Domain logic must be unit tested (23 tests passing)
+- **Validation Tests**: DTO validation scenarios tested (7 tests passing)
+- **Integration Tests**: End-to-end workflows tested (14 tests passing)
+- **Authentication Tests**: Login, JWT, user roles tested (8 tests passing)
 - **Test Coverage**: Maintain above 80% coverage
-- **Current Status**: 30 tests passing, all builds successful
+- **Current Status**: 52 tests passing (100%), all builds successful
+- **Build Verification**: Clean compile, all tests pass, JAR packaged successfully
 
 ### Security Constraints
-- **Authentication**: JWT-based (planned for PR15)
-- **Authorization**: Role-based access control (planned)
+- **Authentication**: JWT-based (IMPLEMENTED in PR15)
+  - 24-hour token expiration
+  - HS256 signing algorithm
+  - Stateless session management
+- **Authorization**: Role-based access control (IMPLEMENTED)
+  - Multiple roles per user supported
+  - ROLE_ prefix automatically added
+- **Password Encryption**: BCrypt with Spring Security
 - **Input Validation**: All inputs validated
 - **CORS**: Configured for frontend communication
 - **CSRF**: Disabled for API endpoints (stateless)

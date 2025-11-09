@@ -14,7 +14,7 @@ import java.util.Map;
 import java.util.function.Function;
 
 /**
- * Service for JWT token generation and validation
+ * JWT Service for token generation, validation, and parsing
  */
 @Service
 public class JwtService {
@@ -102,7 +102,7 @@ public class JwtService {
     }
     
     /**
-     * Get signing key from secret
+     * Get signing key
      */
     private SecretKey getSigningKey() {
         byte[] keyBytes = secret.getBytes();

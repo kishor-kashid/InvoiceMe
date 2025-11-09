@@ -2,32 +2,37 @@ package com.invoiceme.infrastructure.security;
 
 import jakarta.persistence.*;
 import java.time.LocalDateTime;
-import java.util.Objects;
-import java.util.UUID;
+import java.util.HashSet;
+import java.util.Set;
 
 /**
- * User entity for authentication
- * Represents a user in the system with credentials
+ * User Entity for Authentication
+ * Represents a user in the system with credentials and roles
  */
 @Entity
 @Table(name = "users")
 public class UserEntity {
     
     @Id
-    @Column(name = "id", nullable = false, updatable = false)
-    private UUID id;
+    @GeneratedValue(strategy = GenerationType.UUID)
+    private String id;
     
-    @Column(name = "username", nullable = false, unique = true, length = 50)
+    @Column(unique = true, nullable = false, length = 50)
     private String username;
     
-    @Column(name = "email", nullable = false, unique = true, length = 100)
+    @Column(nullable = false)
+    private String password;
+    
+    @Column(unique = true, nullable = false, length = 100)
     private String email;
     
-    @Column(name = "password", nullable = false)
-    private String password; // BCrypt hashed password
+    @ElementCollection(fetch = FetchType.EAGER)
+    @CollectionTable(name = "user_roles", joinColumns = @JoinColumn(name = "user_id"))
+    @Column(name = "role")
+    private Set<String> roles = new HashSet<>();
     
-    @Column(name = "enabled", nullable = false)
-    private boolean enabled = true;
+    @Column(nullable = false)
+    private Boolean enabled = true;
     
     @Column(name = "created_at", nullable = false, updatable = false)
     private LocalDateTime createdAt;
@@ -35,15 +40,14 @@ public class UserEntity {
     @Column(name = "updated_at")
     private LocalDateTime updatedAt;
     
-    // Required for JPA
     protected UserEntity() {
     }
     
-    public UserEntity(UUID id, String username, String email, String password) {
-        this.id = id;
+    public UserEntity(String username, String password, String email, Set<String> roles) {
         this.username = username;
-        this.email = email;
         this.password = password;
+        this.email = email;
+        this.roles = roles != null ? roles : new HashSet<>();
         this.enabled = true;
         this.createdAt = LocalDateTime.now();
         this.updatedAt = LocalDateTime.now();
@@ -51,12 +55,7 @@ public class UserEntity {
     
     @PrePersist
     protected void onCreate() {
-        if (id == null) {
-            id = UUID.randomUUID();
-        }
-        if (createdAt == null) {
-            createdAt = LocalDateTime.now();
-        }
+        createdAt = LocalDateTime.now();
         updatedAt = LocalDateTime.now();
     }
     
@@ -66,7 +65,8 @@ public class UserEntity {
     }
     
     // Getters and Setters
-    public UUID getId() {
+    
+    public String getId() {
         return id;
     }
     
@@ -78,14 +78,6 @@ public class UserEntity {
         this.username = username;
     }
     
-    public String getEmail() {
-        return email;
-    }
-    
-    public void setEmail(String email) {
-        this.email = email;
-    }
-    
     public String getPassword() {
         return password;
     }
@@ -94,11 +86,31 @@ public class UserEntity {
         this.password = password;
     }
     
-    public boolean isEnabled() {
+    public String getEmail() {
+        return email;
+    }
+    
+    public void setEmail(String email) {
+        this.email = email;
+    }
+    
+    public Set<String> getRoles() {
+        return roles;
+    }
+    
+    public void setRoles(Set<String> roles) {
+        this.roles = roles;
+    }
+    
+    public void addRole(String role) {
+        this.roles.add(role);
+    }
+    
+    public Boolean getEnabled() {
         return enabled;
     }
     
-    public void setEnabled(boolean enabled) {
+    public void setEnabled(Boolean enabled) {
         this.enabled = enabled;
     }
     
@@ -108,29 +120,6 @@ public class UserEntity {
     
     public LocalDateTime getUpdatedAt() {
         return updatedAt;
-    }
-    
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        UserEntity that = (UserEntity) o;
-        return Objects.equals(id, that.id);
-    }
-    
-    @Override
-    public int hashCode() {
-        return Objects.hash(id);
-    }
-    
-    @Override
-    public String toString() {
-        return "UserEntity{" +
-                "id=" + id +
-                ", username='" + username + '\'' +
-                ", email='" + email + '\'' +
-                ", enabled=" + enabled +
-                '}';
     }
 }
 

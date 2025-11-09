@@ -1,20 +1,22 @@
 package com.invoiceme.features.auth;
 
 /**
- * DTO for login response
+ * Login Response DTO
+ * Contains JWT token and user information
  */
 public class LoginResponseDto {
     
     private String token;
-    private String type = "Bearer";
     private String username;
+    private String email;
     
     public LoginResponseDto() {
     }
     
-    public LoginResponseDto(String token, String username) {
+    public LoginResponseDto(String token, String username, String email) {
         this.token = token;
         this.username = username;
+        this.email = email;
     }
     
     public String getToken() {
@@ -25,20 +27,20 @@ public class LoginResponseDto {
         this.token = token;
     }
     
-    public String getType() {
-        return type;
-    }
-    
-    public void setType(String type) {
-        this.type = type;
-    }
-    
     public String getUsername() {
         return username;
     }
     
     public void setUsername(String username) {
         this.username = username;
+    }
+    
+    public String getEmail() {
+        return email;
+    }
+    
+    public void setEmail(String email) {
+        this.email = email;
     }
 }
 

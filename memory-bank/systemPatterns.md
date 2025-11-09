@@ -73,7 +73,12 @@ features/
   - `JpaCustomerRepository`
   - `JpaInvoiceRepository`
   - `JpaPaymentRepository`
-- **Security**: (Planned for PR15) JWT service, user management
+- **Security**: JWT authentication and user management
+  - `UserEntity` - User domain entity
+  - `UserRepository` - JPA repository for users
+  - `JwtService` - JWT token generation/validation
+  - `JwtAuthenticationFilter` - Request authentication filter
+  - `UserDetailsServiceImpl` - Spring Security user details service
 
 ### Shared Layer
 **Location**: `backend/src/main/java/com/invoiceme/shared/`
@@ -85,6 +90,17 @@ features/
 - **DTOs**: Error response DTOs (`ErrorResponse`, `ValidationErrorResponse`)
 - **Mappers**: `DtoMapper` for converting domain entities to DTOs
 - **Validation**: Jakarta Bean Validation with custom validators
+
+### Configuration Layer
+**Location**: `backend/src/main/java/com/invoiceme/config/`
+
+**Purpose**: Application-wide configuration.
+
+**Components**:
+- **SecurityConfig**: JWT authentication, BCrypt password encoder, stateless sessions
+- **JpaConfig**: JPA repository scanning (persistence and security packages)
+- **CorsConfig**: CORS configuration for frontend integration
+- **DataInitializer**: Creates default admin user on startup
 
 ## Key Design Patterns
 

@@ -3,7 +3,7 @@ package com.invoiceme.features.auth;
 import jakarta.validation.constraints.NotBlank;
 
 /**
- * DTO for login request
+ * Login Request DTO
  */
 public class LoginDto {
     
