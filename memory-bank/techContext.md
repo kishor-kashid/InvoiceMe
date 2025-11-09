@@ -47,6 +47,7 @@
 #### Development Tools
 - **ESLint**: Code linting
 - **TypeScript Compiler**: Type checking
+- **Playwright**: End-to-end testing framework (3 smoke tests, 100% pass rate)
 
 ### Infrastructure
 
@@ -192,6 +193,7 @@ npm run type-check
 - react-hook-form: ^7.49.2 (for form management)
 - zod: ^3.22.4 (for validation)
 - eslint: ^8.56.0
+- @playwright/test: ^1.40.1 (E2E testing)
 ```
 
 **Note**: Frontend dependencies are installed and actively used. API service layer fully implemented with axios. All customer and invoice management pages functional.

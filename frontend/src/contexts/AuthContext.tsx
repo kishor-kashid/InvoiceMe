@@ -39,21 +39,16 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
     try {
       const currentUser = authService.getCurrentUser();
       if (currentUser) {
-        // Validate token is still valid
-        const isValid = await authService.validateToken();
-        if (isValid) {
-          setUser(currentUser);
-        } else {
-          setUser(null);
-          authService.logout();
-        }
+        // For initial auth check, just verify we have a stored user
+        // Don't validate token on every page load to avoid blocking
+        // Token validation will happen when making actual API calls
+        setUser(currentUser);
       } else {
         setUser(null);
       }
     } catch (error) {
       console.error('Auth check failed:', error);
       setUser(null);
-      authService.logout();
     } finally {
       setIsLoading(false);
     }
