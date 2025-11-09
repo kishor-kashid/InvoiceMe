@@ -8,12 +8,17 @@ export enum InvoiceStatus {
   PAID = 'PAID',
 }
 
+export interface Money {
+  amount: number;
+  currency: string;
+}
+
 export interface LineItem {
   id?: string;
   description: string;
   quantity: number;
-  unitPrice: number;
-  amount: number;
+  unitPrice: Money;
+  amount: Money;
 }
 
 export interface Invoice {
@@ -21,27 +26,34 @@ export interface Invoice {
   invoiceNumber: string;
   customerId: string;
   customerName?: string;
+  notes?: string;
   issueDate: string;
   dueDate: string;
   status: InvoiceStatus;
   lineItems: LineItem[];
-  totalAmount: number;
-  balanceAmount: number;
+  totalAmount: Money;
+  paidAmount: Money;
+  balance: Money;
   createdAt: string;
   updatedAt: string;
+  sentAt?: string;
 }
 
 export interface CreateInvoiceRequest {
   customerId: string;
+  invoiceNumber: string;
   issueDate: string;
   dueDate: string;
+  currency: string;
   lineItems: Omit<LineItem, 'id' | 'amount'>[];
+  notes?: string;
 }
 
 export interface UpdateInvoiceRequest {
   issueDate: string;
   dueDate: string;
   lineItems: Omit<LineItem, 'id' | 'amount'>[];
+  notes?: string;
 }
 
 export interface InvoiceListResponse {

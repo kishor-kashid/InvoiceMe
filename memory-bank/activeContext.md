@@ -2,7 +2,7 @@
 
 ## Current Work Focus
 
-**Status**: Backend fully complete (PRs 1-16). Frontend foundation complete (PR17-21). Frontend customer management complete (PR22). All 52 backend tests passing. Frontend has complete API integration, authentication, interactive dashboard, and customer CRUD operations. Ready for invoice management pages (PR23+).
+**Status**: Backend fully complete (PRs 1-16). Frontend foundation complete (PR17-21). Frontend customer management complete (PR22-23). Frontend invoice management complete (PR24-26). All 52 backend tests passing. Frontend has complete API integration, authentication, interactive dashboard, customer CRUD operations, and invoice CRUD operations. Ready for payment management pages (PR27+) and UI polish (PR29+).
 
 **Last Completed**: 
 - PR1: Project setup and infrastructure (Docker, Maven, Next.js)
@@ -157,13 +157,59 @@
 - ✅ Import fixes (centralized UI component imports)
 - ✅ Hydration warning suppression (browser extension compatibility)
 
-### Upcoming (PR23+)
-- [ ] Frontend customer detail and edit pages (PR23)
-- [ ] Frontend invoice management pages (list, create, edit, detail, line items) (PR24-28)
-- [ ] Frontend payment management pages (list, record payment) (PR29)
-- [ ] UI polish and UX improvements (PR30)
-- [ ] Performance optimization (PR31)
-- [ ] Deployment to AWS/Azure (PR32-34)
+### Completed (PR23)
+- ✅ Customer detail page (/customers/[id]) displaying customer information and associated invoices
+- ✅ Customer edit page (/customers/[id]/edit) reusing CustomerForm component
+- ✅ Customer deletion functionality integrated
+- ✅ Invoice list display on customer detail page with status badges
+- ✅ Customer name display and navigation
+
+### Completed (PR24)
+- ✅ Invoice list page (/invoices) with status filtering and summary statistics
+- ✅ InvoiceList component (professional table with status badges, customer links, balance display)
+- ✅ Invoice create page (/invoices/new) with comprehensive form
+- ✅ InvoiceForm component with customer dropdown, invoice number, currency, dates, line items, notes
+- ✅ LineItemForm component (dynamic add/remove line items with automatic calculations)
+- ✅ InvoiceStatusBadge component for status display
+- ✅ useInvoiceViewModel (MVVM pattern, CRUD operations, form validation, invoice lifecycle)
+- ✅ Automatic total calculation from line items
+- ✅ Invoice number generation helper
+- ✅ Currency selection (USD, EUR, GBP)
+- ✅ Notes field with character count (max 1000 characters)
+
+### Completed (PR25)
+- ✅ Invoice detail page (/invoices/[id]) displaying complete invoice information
+- ✅ Invoice header (customer name, invoice number, status, dates, totals)
+- ✅ Line items table with descriptions, quantities, unit prices, amounts
+- ✅ Payments history display
+- ✅ Current balance display with color coding (red for positive balance, green for zero)
+- ✅ "Mark as Sent" button (only visible for DRAFT invoices)
+- ✅ "Record Payment" button and modal (only visible for SENT invoices)
+- ✅ Payment amount validation (cannot exceed balance)
+- ✅ Customer name fetching and display
+
+### Completed (PR26)
+- ✅ Invoice edit page (/invoices/[id]/edit) for DRAFT invoices only
+- ✅ InvoiceForm component updated to support edit mode with pre-filled data
+- ✅ Validation to prevent editing SENT/PAID invoices
+- ✅ Money object handling (extracting amount and currency from backend responses)
+- ✅ Line items pre-population from existing invoice data
+
+### Key Fixes (PR23-PR26)
+- ✅ Fixed Money object handling throughout frontend (backend sends `{amount, currency}` objects)
+- ✅ Fixed "$NaN" display issues by correctly accessing Money object properties
+- ✅ Fixed validation errors when creating invoices (added invoiceNumber, currency, notes fields)
+- ✅ Fixed component import issues (Spinner default export, Card component removal)
+- ✅ Fixed Next.js Suspense boundaries for useSearchParams
+- ✅ Fixed customer name display on invoice detail page
+- ✅ Fixed apostrophe escaping in dashboard text
+- ✅ Fixed Badge variant types (DRAFT status uses 'gray' variant)
+
+### Upcoming (PR27+)
+- [ ] Frontend payment management pages (list, record payment) (PR27-28)
+- [ ] UI polish and UX improvements (PR29)
+- [ ] Performance optimization (PR30)
+- [ ] Deployment to AWS/Azure (PR31-34)
 
 ## Active Decisions and Considerations
 
@@ -225,9 +271,10 @@ All backend endpoints implemented, secured, and documented:
 1. ⚠️ **Default Admin Password**: Default admin user has password `admin123` - must be changed in production
 2. ⚠️ **JWT Secret**: JWT secret key in application.properties should be changed for production
 3. ⚠️ **User Management**: No user registration or multi-user system - single business owner model (by design)
-4. **Customer Pages**: List and Create complete (PR22). Detail and Edit pages pending (PR23)
-5. **Invoice Pages**: Not yet implemented (PR24-28)
-6. **Deployment**: Not yet configured (PR32+)
+4. **Next.js Build Cache**: If encountering module resolution errors, clear `.next` directory and restart dev server
+5. **Payment Pages**: Not yet implemented (PR27-28)
+6. **UI Polish**: Loading states, error toasts, and UX improvements pending (PR29)
+7. **Deployment**: Not yet configured (PR31+)
 
 ## Development Environment
 

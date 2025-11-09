@@ -123,24 +123,33 @@
 - ✅ Token storage and refresh (localStorage, auto-validation)
 - ✅ useAuthViewModel (MVVM pattern, form validation)
 
-### Frontend - Customer Management (PR22)
+### Frontend - Customer Management (PR22-PR23)
 - ✅ Customer list page (/customers) with search, stats, delete confirmation
 - ✅ Customer create page (/customers/new) with full validation
+- ✅ Customer detail page (/customers/[id]) with customer info and invoice list
+- ✅ Customer edit page (/customers/[id]/edit) reusing CustomerForm
 - ✅ Customer ViewModel (useCustomerViewModel) with MVVM pattern
 - ✅ CustomerList component (professional table, View/Edit/Delete actions)
 - ✅ CustomerForm component (comprehensive validation, error handling)
 - ✅ Full CRUD integration with backend API
 - ✅ Type system aligned with backend (zipCode, flat request structure)
-- [ ] Customer detail page (PR23)
-- [ ] Customer edit page (PR23)
+- ✅ Customer deletion functionality
+- ✅ Invoice list display on customer detail page
 
-### Frontend - Invoice Management (PR23-PR28)
-- [ ] Invoice list page
-- [ ] Invoice detail page
-- [ ] Create invoice form (with line items)
-- [ ] Update invoice form
-- [ ] Invoice status management
-- [ ] Invoice ViewModel
+### Frontend - Invoice Management (PR24-PR26)
+- ✅ Invoice list page (/invoices) with status filtering and summary statistics
+- ✅ Invoice detail page (/invoices/[id]) with complete invoice information
+- ✅ Invoice create page (/invoices/new) with comprehensive form
+- ✅ Invoice edit page (/invoices/[id]/edit) for DRAFT invoices
+- ✅ Invoice ViewModel (useInvoiceViewModel) with MVVM pattern
+- ✅ InvoiceForm component (customer dropdown, invoice number, currency, dates, line items, notes)
+- ✅ LineItemForm component (dynamic add/remove with automatic calculations)
+- ✅ InvoiceStatusBadge component for status display
+- ✅ InvoiceList component (professional table with status badges, customer links)
+- ✅ Invoice lifecycle management (Mark as Sent, Record Payment)
+- ✅ Payment recording modal with validation
+- ✅ Money object handling (correctly accessing amount and currency properties)
+- ✅ Customer name fetching and display on invoice detail page
 
 ### Frontend - Payment Management (PR29-PR30)
 - [ ] Payment list page
@@ -175,25 +184,30 @@
 - ✅ PR15: Authentication & Security (JWT, BCrypt, Login endpoint)
 - ✅ PR16: Testing (Integration tests, Authentication tests - 52 total tests passing)
 - ✅ PR17: Frontend Setup & Configuration (Tailwind, TypeScript, Layout)
-- ✅ **PR18: Frontend Types & API Service Layer (Complete type system, axios, all services)**
-- ✅ **PR19: Frontend UI Components Library (7 professional components)**
-- ✅ **PR20: Frontend Login & Authentication (AuthContext, ProtectedRoute, login page)**
-- ✅ **PR21: Frontend Dashboard Page (Real-time data, stats, activity timeline)**
-- ✅ **PR22: Frontend Customer Management - List & Create (CustomerList, CustomerForm, useCustomerViewModel, full CRUD UI)**
+- ✅ PR18: Frontend Types & API Service Layer (Complete type system, axios, all services)
+- ✅ PR19: Frontend UI Components Library (7 professional components)
+- ✅ PR20: Frontend Login & Authentication (AuthContext, ProtectedRoute, login page)
+- ✅ PR21: Frontend Dashboard Page (Real-time data, stats, activity timeline)
+- ✅ PR22: Frontend Customer Management - List & Create (CustomerList, CustomerForm, useCustomerViewModel, full CRUD UI)
+- ✅ **PR23: Frontend Customer Management - Details & Edit (Customer detail page, edit page, invoice list)**
+- ✅ **PR24: Frontend Invoice Management - List & Create (InvoiceList, InvoiceForm, LineItemForm, useInvoiceViewModel)**
+- ✅ **PR25: Frontend Invoice Management - Details & Actions (Invoice detail page, Mark as Sent, Record Payment)**
+- ✅ **PR26: Frontend Invoice Management - Edit (Invoice edit page for DRAFT invoices)**
 
 ### Next Up
-- 📋 PR23: Frontend Customer Management - Details & Edit
+- 📋 PR27: Frontend Payment Recording (Payment form, payment modal integration)
 
 ### Remaining
-- 📋 PR18-PR34: Frontend features and Deployment
+- 📋 PR28-PR34: Payment list, UI polish, performance optimization, and deployment
 
 ## Known Issues
 
 1. ⚠️ **Default Admin Password**: Default admin user created with password `admin123` - MUST be changed for production deployment
 2. ⚠️ **JWT Secret Key**: JWT secret in application.properties should be replaced with secure key for production
-3. **Customer Detail/Edit Pages**: List and Create complete (PR22), Detail and Edit pending (PR23)
-4. **Invoice Pages**: Not yet implemented (PR24-28)
-5. **Deployment**: Not yet configured (PR32+)
+3. **Next.js Build Cache**: If encountering "Cannot find module" errors, clear `.next` directory and restart dev server
+4. **Payment Pages**: Not yet implemented (PR27-28)
+5. **UI Polish**: Loading states, error toasts, and UX improvements pending (PR29)
+6. **Deployment**: Not yet configured (PR31+)
 
 ## Performance Status
 
@@ -232,10 +246,15 @@
 6. ✅ **PR20**: Frontend authentication system (COMPLETE)
 7. ✅ **PR21**: Frontend dashboard with real data (COMPLETE)
 8. ✅ **PR22**: Frontend customer management - list and create (COMPLETE)
-9. 📋 **PR23**: Frontend customer management - details and edit
-10. 📋 **PR24-28**: Invoice management pages
-11. 📋 **PR29-31**: UI polish and enhancements
-12. 📋 **PR32-PR34**: Deployment to AWS/Azure
+9. ✅ **PR23**: Frontend customer management - details and edit (COMPLETE)
+10. ✅ **PR24**: Frontend invoice management - list and create (COMPLETE)
+11. ✅ **PR25**: Frontend invoice management - details and actions (COMPLETE)
+12. ✅ **PR26**: Frontend invoice management - edit (COMPLETE)
+13. 📋 **PR27**: Frontend payment recording (Payment form, payment modal integration)
+14. 📋 **PR28**: Frontend payment list page
+15. 📋 **PR29**: UI polish and UX improvements
+16. 📋 **PR30**: Performance optimization
+17. 📋 **PR31-PR34**: Deployment to AWS/Azure
 
 ## Backend Completion Status
 
@@ -263,15 +282,32 @@
 - Environment variables documentation
 - Zero linter errors, 100% type-safe
 
-**✅ Frontend customer management (PR22) is complete:**
+**✅ Frontend customer management (PR22-PR23) is complete:**
 - Customer list page with search, filtering, and stats
 - Customer create page with comprehensive form validation
+- Customer detail page displaying customer information and associated invoices
+- Customer edit page reusing CustomerForm component
 - CustomerList component (professional table with actions)
 - CustomerForm component (create/edit modes, error handling)
 - useCustomerViewModel (MVVM pattern, CRUD operations, search/filter)
-- Full integration with backend API
+- Full CRUD integration with backend API
 - Type system aligned with backend (zipCode field, flat request structure)
-- Import fixes (centralized UI component exports)
-- Hydration warning suppression for browser extension compatibility
-- Ready for customer detail/edit pages (PR23) and invoice management (PR24+)
+- Customer deletion functionality
+- Invoice list display on customer detail page
+
+**✅ Frontend invoice management (PR24-PR26) is complete:**
+- Invoice list page with status filtering and summary statistics
+- Invoice detail page with complete invoice information, line items, and payments
+- Invoice create page with comprehensive form (invoice number, currency, dates, line items, notes)
+- Invoice edit page for DRAFT invoices only
+- InvoiceForm component with customer dropdown, invoice number generation, currency selection, line items management
+- LineItemForm component with dynamic add/remove and automatic calculations
+- InvoiceStatusBadge component for status display
+- InvoiceList component (professional table with status badges, customer links, balance display)
+- useInvoiceViewModel (MVVM pattern, CRUD operations, form validation, invoice lifecycle)
+- Money object handling (correctly accessing amount and currency properties from backend)
+- Invoice lifecycle management (Mark as Sent, Record Payment with validation)
+- Customer name fetching and display on invoice detail page
+- All validation errors resolved (invoiceNumber, currency, notes fields)
+- All "$NaN" display issues resolved
 

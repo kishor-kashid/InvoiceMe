@@ -87,7 +87,7 @@ export const useDashboardViewModel = () => {
             id: invoice.id,
             type: 'payment_received',
             title: 'Payment Received',
-            description: `Invoice ${invoice.invoiceNumber} - $${invoice.totalAmount.toFixed(2)}`,
+            description: `Invoice ${invoice.invoiceNumber} - $${invoice.totalAmount.amount.toFixed(2)}`,
             timestamp: invoice.updatedAt,
             icon: 'payment',
           });
