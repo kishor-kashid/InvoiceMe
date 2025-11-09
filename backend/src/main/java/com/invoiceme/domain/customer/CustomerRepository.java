@@ -1,6 +1,8 @@
 package com.invoiceme.domain.customer;
 
 import com.invoiceme.domain.shared.Email;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import java.util.List;
 import java.util.Optional;
 
@@ -29,6 +31,11 @@ public interface CustomerRepository {
      * Find all customers
      */
     List<Customer> findAll();
+    
+    /**
+     * Find all customers with pagination
+     */
+    Page<Customer> findAll(Pageable pageable);
     
     /**
      * Delete a customer

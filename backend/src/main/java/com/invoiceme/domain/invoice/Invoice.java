@@ -15,7 +15,15 @@ import java.util.Objects;
  * Manages the invoice lifecycle: DRAFT → SENT → PAID
  */
 @Entity
-@Table(name = "invoices")
+@Table(name = "invoices", indexes = {
+    @Index(name = "idx_invoice_customer_id", columnList = "customer_id"),
+    @Index(name = "idx_invoice_status", columnList = "status"),
+    @Index(name = "idx_invoice_number", columnList = "invoice_number"),
+    @Index(name = "idx_invoice_issue_date", columnList = "issue_date"),
+    @Index(name = "idx_invoice_due_date", columnList = "due_date"),
+    @Index(name = "idx_invoice_created_at", columnList = "created_at"),
+    @Index(name = "idx_invoice_customer_status", columnList = "customer_id, status")
+})
 public class Invoice {
     
     @EmbeddedId

@@ -34,14 +34,25 @@ export interface ApiResponse<T> {
 export interface PaginationParams {
   page?: number;
   size?: number;
-  sort?: string;
+  sortBy?: string;
+  direction?: 'asc' | 'desc';
 }
 
 export interface PageResponse<T> {
   content: T[];
+  pageNumber: number;
+  pageSize: number;
   totalElements: number;
   totalPages: number;
-  size: number;
-  number: number;
+  first: boolean;
+  last: boolean;
+  empty: boolean;
 }
+
+/**
+ * Default pagination values
+ */
+export const DEFAULT_PAGE_SIZE = 20;
+export const DEFAULT_PAGE = 0;
+export const DEFAULT_SORT_DIRECTION = 'desc' as const;
 

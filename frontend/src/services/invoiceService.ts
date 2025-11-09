@@ -10,16 +10,27 @@ import {
   InvoiceFilters,
   Payment,
   CreatePaymentRequest,
+  PageResponse,
+  PaginationParams,
 } from '@/types';
 
 const INVOICES_ENDPOINT = '/invoices';
 
 export const invoiceService = {
   /**
-   * Get all invoices with optional filters
+   * Get all invoices with optional filters (without pagination)
    */
   getAll: async (filters?: InvoiceFilters): Promise<Invoice[]> => {
     const response = await apiClient.get<Invoice[]>(INVOICES_ENDPOINT, filters);
+    return response.data;
+  },
+
+  /**
+   * Get invoices with pagination and optional filters
+   */
+  getAllPaginated: async (filters?: InvoiceFilters, pagination?: PaginationParams): Promise<PageResponse<Invoice>> => {
+    const params = { ...filters, ...pagination };
+    const response = await apiClient.get<PageResponse<Invoice>>(INVOICES_ENDPOINT, params);
     return response.data;
   },
 

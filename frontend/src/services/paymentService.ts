@@ -3,7 +3,7 @@
  */
 
 import { apiClient } from './api';
-import { Payment } from '@/types';
+import { Payment, PageResponse, PaginationParams } from '@/types';
 
 const PAYMENTS_ENDPOINT = '/payments';
 
@@ -17,10 +17,18 @@ export const paymentService = {
   },
 
   /**
-   * Get all payments (if endpoint exists)
+   * Get all payments (without pagination)
    */
   getAll: async (): Promise<Payment[]> => {
     const response = await apiClient.get<Payment[]>(PAYMENTS_ENDPOINT);
+    return response.data;
+  },
+
+  /**
+   * Get payments with pagination
+   */
+  getAllPaginated: async (params?: PaginationParams): Promise<PageResponse<Payment>> => {
+    const response = await apiClient.get<PageResponse<Payment>>(PAYMENTS_ENDPOINT, params);
     return response.data;
   },
 

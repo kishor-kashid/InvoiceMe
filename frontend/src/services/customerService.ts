@@ -7,6 +7,8 @@ import {
   Customer,
   CreateCustomerRequest,
   UpdateCustomerRequest,
+  PageResponse,
+  PaginationParams,
 } from '@/types';
 
 const CUSTOMERS_ENDPOINT = '/customers';
@@ -19,10 +21,18 @@ const getCustomerById = async (id: string): Promise<Customer> => {
 
 export const customerService = {
   /**
-   * Get all customers
+   * Get all customers (without pagination)
    */
   getAll: async (): Promise<Customer[]> => {
     const response = await apiClient.get<Customer[]>(CUSTOMERS_ENDPOINT);
+    return response.data;
+  },
+
+  /**
+   * Get customers with pagination
+   */
+  getAllPaginated: async (params?: PaginationParams): Promise<PageResponse<Customer>> => {
+    const response = await apiClient.get<PageResponse<Customer>>(CUSTOMERS_ENDPOINT, params);
     return response.data;
   },
 

@@ -1091,54 +1091,75 @@ invoiceme/
 **Branch**: `deployment/aws-setup`
 
 #### Tasks:
-- [ ] Create Dockerfile for backend
-  - Files: backend/Dockerfile
-- [ ] Create Dockerfile for frontend
-  - Files: frontend/Dockerfile
-- [ ] Update docker-compose.yml for production
-  - Files: docker-compose.prod.yml
-- [ ] Create AWS RDS PostgreSQL configuration
+- [ ] Create AWS RDS PostgreSQL instance configuration
+  - Document: RDS instance setup, security groups, connection details
   - Files: docs/AWS_SETUP.md
-- [ ] Create AWS EC2 deployment scripts
-  - Files: deploy.sh
-- [ ] Create environment variables for production
-  - Files: .env.production.example
-- [ ] Document deployment steps
+- [ ] Create EC2 instance setup guide
+  - Document: EC2 instance type, security groups, key pairs
+  - Files: docs/AWS_SETUP.md
+- [ ] Create EC2 deployment scripts for backend
+  - Files: deploy-backend.sh (git clone, build, run on EC2)
+- [ ] Create S3 bucket configuration for frontend
+  - Document: S3 bucket setup, static website hosting
+  - Files: docs/AWS_SETUP.md
+- [ ] Create frontend build and deployment script
+  - Files: deploy-frontend.sh (build Next.js, upload to S3)
+- [ ] Create environment variables template for production
+  - Files: .env.production.example (RDS connection, JWT secret, etc.)
+- [ ] Create EC2 setup script (Java 17, Maven, PostgreSQL client)
+  - Files: setup-ec2.sh
+- [ ] Document complete deployment steps
   - Files: docs/DEPLOYMENT.md
 
 **Files Created/Modified**:
-- `/backend/Dockerfile`
-- `/frontend/Dockerfile`
-- `/docker-compose.prod.yml`
-- `/deploy.sh`
-- `/.env.production.example`
-- `/docs/AWS_SETUP.md`
-- `/docs/DEPLOYMENT.md`
+- `/deploy-backend.sh` (EC2 deployment script)
+- `/deploy-frontend.sh` (S3 deployment script)
+- `/setup-ec2.sh` (EC2 environment setup)
+- `/.env.production.example` (production environment variables)
+- `/docs/AWS_SETUP.md` (AWS infrastructure setup guide)
+- `/docs/DEPLOYMENT.md` (deployment steps documentation)
 
 ---
 
-### **PR #34: AWS Deployment**
+### **PR #34: AWS Deployment Execution**
 **Branch**: `deployment/aws-deploy`
 
 #### Tasks:
-- [ ] Setup AWS RDS PostgreSQL instance
-  - Document: Connection string in .env
-- [ ] Setup AWS EC2 instance
-  - Document: Instance details
-- [ ] Deploy backend to AWS
-  - Verify: API accessible via public URL
-- [ ] Deploy frontend to AWS (or Vercel/Netlify)
-  - Verify: UI accessible via public URL
-- [ ] Configure HTTPS with SSL certificate
-  - Files: nginx.conf (if using nginx)
+- [ ] Create AWS RDS PostgreSQL instance
+  - Configure: Database name, username, password, security groups
+  - Document: Connection endpoint and credentials
+  - Verify: Database accessible from EC2 instance
+- [ ] Create AWS EC2 instance for backend
+  - Configure: Instance type (t3.medium or larger), security groups, key pair
+  - Setup: Run setup-ec2.sh to install Java 17, Maven, PostgreSQL client
+  - Configure: Security group to allow inbound on port 8080 (or use Application Load Balancer)
+- [ ] Deploy backend to EC2
+  - Execute: Git clone repository on EC2
+  - Execute: Run deploy-backend.sh (build with Maven, configure environment variables)
+  - Configure: Systemd service or PM2 for process management
+  - Verify: Backend API accessible via EC2 public IP/domain
+- [ ] Create S3 bucket for frontend
+  - Configure: Static website hosting enabled
+  - Configure: Bucket policy for public read access
+- [ ] Build and deploy frontend to S3
+  - Execute: Run deploy-frontend.sh (npm run build, upload to S3)
+  - Configure: Update API endpoint in frontend to point to EC2 backend
+  - Verify: Frontend accessible via S3 website endpoint
+- [ ] Configure CORS on backend
+  - Update: application.properties to allow S3 origin
+  - Verify: Frontend can communicate with backend API
 - [ ] Test production deployment
-  - Verify: All features work in production
-- [ ] Update README with production URLs
-  - Files: README.md (update)
+  - Verify: All API endpoints working
+  - Verify: Frontend can login and access all features
+  - Verify: Database connections working
+  - Verify: JWT authentication working
+- [ ] Update README with production URLs and deployment info
+  - Files: README.md (add production URLs, deployment architecture)
 
 **Files Created/Modified**:
-- `/nginx.conf` (if applicable)
-- `/README.md` (add production URLs)
+- `/README.md` (add production URLs, deployment architecture)
+- `/backend/src/main/resources/application.properties` (update CORS for production)
+- `/frontend/.env.production` (production API endpoint)
 - AWS console configurations (documented in docs/AWS_SETUP.md)
 
 ---

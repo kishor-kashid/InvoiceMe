@@ -11,7 +11,11 @@ import java.util.Objects;
  * Represents a customer in the invoicing system
  */
 @Entity
-@Table(name = "customers")
+@Table(name = "customers", indexes = {
+    @Index(name = "idx_customer_email", columnList = "email"),
+    @Index(name = "idx_customer_created_at", columnList = "created_at"),
+    @Index(name = "idx_customer_name", columnList = "name")
+})
 public class Customer {
     
     @EmbeddedId
