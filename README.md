@@ -219,24 +219,28 @@ InvoiceMe/
 
 ## 🔌 API Endpoints
 
-### Customers
+See **[API.md](API.md)** for complete API documentation with request/response examples.
+
+### Quick Reference
+
+**Customers:**
 - `POST /api/customers` - Create customer
 - `GET /api/customers` - List all customers
 - `GET /api/customers/{id}` - Get customer by ID
 - `PUT /api/customers/{id}` - Update customer
 - `DELETE /api/customers/{id}` - Delete customer
 
-### Invoices
-- `POST /api/invoices` - Create invoice
-- `GET /api/invoices` - List invoices (with filters)
+**Invoices:**
+- `POST /api/invoices` - Create invoice with line items
+- `GET /api/invoices` - List invoices (filters: status, customerId)
 - `GET /api/invoices/{id}` - Get invoice by ID
 - `PUT /api/invoices/{id}` - Update invoice (DRAFT only)
 - `POST /api/invoices/{id}/send` - Mark invoice as sent
 - `POST /api/invoices/{id}/payments` - Record payment
-
-### Payments
-- `GET /api/payments/{id}` - Get payment by ID
 - `GET /api/invoices/{id}/payments` - List payments for invoice
+
+**Payments:**
+- `GET /api/payments/{id}` - Get payment by ID
 
 ## 🐳 Docker Commands
 
@@ -315,10 +319,10 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 
 ## 📚 Additional Documentation
 
+- **[API Documentation](API.md)** - Complete REST API reference
 - [Product Requirements Document](InvoiceMe-PRD.md)
 - [Task List & PR Breakdown](InvoiceMe_Task_List.md)
 - Technical Writeup (coming soon)
-- API Documentation (coming soon)
 
 ## 🎯 Success Criteria
 
@@ -330,5 +334,3 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 - ✅ Deployed to AWS/Azure
 
 ---
-
-**Built with ❤️ using AI-assisted development tools**
