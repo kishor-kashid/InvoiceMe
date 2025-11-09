@@ -24,6 +24,7 @@
 - **JWT (jjwt 0.12.3)**: JSON Web Token library for stateless authentication
 - **BCrypt**: Password encryption via Spring Security
 - **Spring Security 6**: Authentication and authorization framework
+- **Frontend Auth**: AuthContext, ProtectedRoute, JWT token management
 
 #### Development Tools
 - **Lombok**: Reduces boilerplate code
@@ -39,8 +40,9 @@
 - **MVVM Pattern**: Architecture for UI logic
 
 #### Styling
-- **Tailwind CSS**: Utility-first CSS framework
+- **Tailwind CSS**: Utility-first CSS framework (comprehensive design system)
 - **PostCSS**: CSS processing
+- **Custom Components**: Professional UI library (Button, Input, Card, Table, Badge, Modal, Spinner)
 
 #### Development Tools
 - **ESLint**: Code linting
@@ -175,11 +177,13 @@ npm run type-check
 - typescript: ^5.3.3
 - tailwindcss: ^3.3.6
 - postcss: ^8.4.32
-- axios: ^1.6.2 (for API calls)
+- axios: ^1.6.2 (for API calls) - ✅ IMPLEMENTED
 - react-hook-form: ^7.49.2 (for form management)
 - zod: ^3.22.4 (for validation)
 - eslint: ^8.56.0
 ```
+
+**Note**: Frontend dependencies are installed and actively used. API service layer fully implemented with axios.
 
 ## Development Workflow
 

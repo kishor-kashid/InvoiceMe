@@ -26,11 +26,13 @@ export default function Layout({ children }: LayoutProps) {
         <Header />
       </div>
 
-      {/* Sidebar (responsive) */}
-      <Sidebar isOpen={sidebarOpen} onClose={closeSidebar} />
+      {/* Sidebar (mobile only) */}
+      <div className="lg:hidden">
+        <Sidebar isOpen={sidebarOpen} onClose={closeSidebar} />
+      </div>
 
       {/* Main Content */}
-      <main className="lg:ml-0">
+      <main>
         {/* Mobile Header with Menu Button */}
         <div className="lg:hidden sticky top-0 z-30 bg-white border-b border-gray-200">
           <div className="flex items-center justify-between h-16 px-4">
