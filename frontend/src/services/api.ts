@@ -60,7 +60,7 @@ export function setUser(user: { username: string; roles: string[] }): void {
 const createApiInstance = (): AxiosInstance => {
   const instance = axios.create({
     baseURL: API_BASE_URL,
-    timeout: 30000,
+    timeout: 10000, // Reduced to 10 seconds for faster failure detection
     headers: {
       'Content-Type': 'application/json',
     },

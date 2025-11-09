@@ -16,18 +16,21 @@
 - ✅ JPA configuration with multi-package repository scanning
 - ✅ Maven wrapper setup
 - ✅ Security infrastructure (JWT, UserDetails, Authentication Filter)
+- ✅ **Database indexes** (11 strategic indexes for query optimization)
+- ✅ **Pagination support** (Page/Pageable interfaces, all repositories)
+- ✅ **Connection pool optimization** (HikariCP 20 connections, lifecycle management)
 
 ### Backend - Application Layer (API)
 - ✅ **Customer Endpoints**:
   - POST /api/customers - Create customer
-  - GET /api/customers - List all customers
+  - GET /api/customers - List all customers (with optional pagination)
   - GET /api/customers/{id} - Get customer by ID
   - PUT /api/customers/{id} - Update customer
   - DELETE /api/customers/{id} - Delete customer
 
 - ✅ **Invoice Endpoints**:
   - POST /api/invoices - Create invoice with line items
-  - GET /api/invoices - List invoices (with filters)
+  - GET /api/invoices - List invoices (with filters and optional pagination)
   - GET /api/invoices/{id} - Get invoice by ID
   - PUT /api/invoices/{id} - Update invoice (DRAFT only)
   - POST /api/invoices/{id}/send - Mark invoice as sent
@@ -35,6 +38,7 @@
   - GET /api/invoices/{id}/payments - List payments for invoice
 
 - ✅ **Payment Endpoints**:
+  - GET /api/payments - List all payments (with optional pagination)
   - GET /api/payments/{id} - Get payment by ID
 
 ### Backend - Shared Components
@@ -62,10 +66,17 @@
 - ✅ **Authentication Tests**: 8 comprehensive tests covering all auth scenarios
 
 ### Documentation
-- ✅ README.md with setup instructions
+- ✅ README.md with comprehensive setup instructions (updated in PR31)
 - ✅ API.md with complete API documentation
 - ✅ InvoiceMe-PRD.md (product requirements)
 - ✅ InvoiceMe_Task_List.md (task breakdown)
+- ✅ **Technical Writeup** (docs/TECHNICAL_WRITEUP.md) - Architecture deep dive (PR31)
+- ✅ **Database Schema** (docs/DATABASE_SCHEMA.md) - Complete schema with ER diagram (PR31)
+- ✅ **Design Decisions** (docs/DESIGN_DECISIONS.md) - 20 key decisions documented (PR31)
+- ✅ **AI Tool Usage** (docs/AI_TOOL_USAGE.md) - Development chronicle (PR31)
+- ✅ **Swagger Setup Guide** (docs/SWAGGER_SETUP.md) - OpenAPI implementation plan (PR31)
+- ✅ **Documentation Index** (docs/README.md) - Navigation guide (PR31)
+- ✅ **Total**: ~44 pages of comprehensive technical documentation
 
 ### Development Environment
 - ✅ Docker Compose for PostgreSQL
@@ -101,10 +112,12 @@
 - ✅ Dashboard page with stats and quick actions
 - ✅ Environment variables documentation
 
-### Frontend - Types & API Services (PR18)
+### Frontend - Types & API Services (PR18, PR30)
 - ✅ TypeScript type definitions (Customer, Invoice, Payment, Auth, API types)
+- ✅ **Pagination types** (PageResponse, PaginationParams, defaults)
 - ✅ Base API configuration (axios with interceptors)
 - ✅ API services (customerService, invoiceService, paymentService)
+- ✅ **Pagination methods** (getAllPaginated for all services)
 - ✅ Auth service (login, logout, token management, validation)
 
 ### Frontend - UI Components Library (PR19)
@@ -187,12 +200,36 @@
 - ✅ Logout dropdown in Header (user menu with avatar and logout button)
 - ✅ Fixed hydration warning in Input component (browser extension compatibility)
 
-### Deployment (PR32-PR34)
-- [ ] AWS/Azure setup
-- [ ] Database migration strategy
-- [ ] Production configuration
-- [ ] CI/CD pipeline
-- [ ] Deployment documentation
+### Documentation (PR31) - ✅ COMPLETE
+- ✅ Technical Writeup (docs/TECHNICAL_WRITEUP.md) - ~2 pages
+- ✅ Database Schema Documentation (docs/DATABASE_SCHEMA.md) - ~6 pages
+- ✅ Design Decisions Documentation (docs/DESIGN_DECISIONS.md) - ~8 pages
+- ✅ AI Tool Usage Documentation (docs/AI_TOOL_USAGE.md) - ~10 pages
+- ✅ Swagger Setup Guide (docs/SWAGGER_SETUP.md) - ~5 pages
+- ✅ Documentation Index (docs/README.md) - ~2 pages
+- ✅ Updated Main README with performance details and documentation links
+- ✅ Total: ~44 pages of comprehensive technical documentation
+
+### End-to-End Testing (PR32) - ✅ COMPLETE
+- ✅ Playwright E2E testing framework configuration (playwright.config.ts)
+- ✅ Smoke test suite (frontend/e2e/smoke-tests.spec.ts) - 3 tests
+- ✅ Test scripts (test:e2e, test:e2e:ui, test:e2e:headed, test:e2e:report)
+- ✅ Browser configuration (Chromium, Firefox, WebKit support)
+- ✅ Auto web server startup in test configuration
+- ✅ .gitignore updated (test-results/, playwright-report/, playwright/.cache/)
+- ✅ TypeScript configuration (excluded E2E files from type checking)
+- ✅ Performance fixes (AuthContext, API timeout reduction)
+- ✅ Backend cleanup (removed incorrectly placed Node.js files)
+- ✅ Test reliability: 100% pass rate (3/3 tests passing)
+- ✅ Test execution time: 16-32 seconds
+
+### Deployment (PR33-PR34)
+- [ ] AWS EC2 setup scripts (deploy-backend.sh, setup-ec2.sh)
+- [ ] AWS S3 configuration (deploy-frontend.sh)
+- [ ] AWS RDS setup (PostgreSQL production database)
+- [ ] Environment variables for production (.env.production.example)
+- [ ] Deployment documentation (docs/AWS_SETUP.md, docs/DEPLOYMENT.md)
+- [ ] Production deployment execution
 
 ## Current Status
 
@@ -217,25 +254,36 @@
 - ✅ **PR26: Frontend Invoice Management - Edit (Invoice edit page for DRAFT invoices)**
 - ✅ **PR27: Frontend Payment Recording (PaymentForm, usePaymentViewModel, modal integration)**
 - ✅ **PR28: Frontend Payment List Page (PaymentList component, /payments page, statistics)**
+- ✅ **PR29: UI Polish & UX Improvements (Toast notifications, loading skeletons, animations)**
+- ✅ **PR30: Performance Optimization (Database indexes, pagination, connection pooling)**
+- ✅ **PR31: Documentation and Technical Writeup - COMPLETE** (~44 pages, 6 documents)
+- ✅ **PR32: End-to-End Testing (Playwright framework, 3 smoke tests, 100% pass rate)**
 
 ### Next Up
-- 📋 PR30: Performance Optimization (pagination, caching, database indexes)
+- 📋 PR33: AWS Deployment Preparation (EC2/S3/RDS setup, deployment scripts, documentation)
 
 ### Remaining
-- 📋 PR30-PR34: Performance optimization, documentation, and deployment
+- 📋 PR33: AWS Deployment Preparation
+- 📋 PR34: Production Deployment (Actual deployment to AWS)
 
 ## Known Issues
 
 1. ⚠️ **Default Admin Password**: Default admin user created with password `admin123` - MUST be changed for production deployment
 2. ⚠️ **JWT Secret Key**: JWT secret in application.properties should be replaced with secure key for production
 3. **Next.js Build Cache**: If encountering "Cannot find module" errors, clear `.next` directory and restart dev server
-4. **Payment Pagination**: Payment list loads all payments at once (no pagination yet) - will be addressed in PR30
-5. **Deployment**: Not yet configured (PR32+)
+4. ✅ **Documentation**: Technical writeup complete (PR31) - 6 documents, ~44 pages
+5. ✅ **E2E Testing**: Smoke test suite complete (PR32) - 3 tests, 100% reliable
+6. **Deployment**: Not yet configured (PR33+)
 
 ## Performance Status
 
 - ✅ API endpoints responding
-- ✅ Build time: ~58 seconds for clean build with all tests
+- ✅ Build time: ~50 seconds for clean build with all tests
+- ✅ **Database indexes** added for optimized queries
+- ✅ **Pagination support** implemented (default 20 items per page)
+- ✅ **Connection pooling** optimized (20 max connections, leak detection)
+- ✅ **JPA batch operations** enabled (batch size: 20)
+- ✅ Performance optimizations complete (PR30)
 - ⏳ Performance benchmarks not yet measured (target: < 200ms)
 - ⏳ Load testing not yet performed
 
@@ -246,18 +294,24 @@
 - ✅ **Validation tests**: DTO validation (7 tests)
 - ✅ **Integration tests**: Customer, Invoice, Payment flows (14 tests)
 - ✅ **Authentication tests**: Login, JWT, user roles (8 tests)
-- ✅ **Total: 52 tests, 100% passing**
+- ✅ **Total Backend Tests: 52 tests, 100% passing**
 - ✅ **Build verification**: Clean compile, all tests pass, JAR packaged successfully
-- ⏳ **End-to-end tests**: Not yet implemented
-- ⏳ **Frontend tests**: Not yet implemented
+- ✅ **End-to-end smoke tests**: 3 tests, 100% passing (Playwright framework)
+- ⏳ **Comprehensive E2E tests**: Deferred (login timing issues, can be added later)
+- ⏳ **Frontend unit tests**: Not yet implemented
 
 ## Documentation Status
 
-- ✅ API documentation complete
-- ✅ Setup instructions complete
-- ⏳ Technical writeup (planned)
-- ⏳ Deployment guide (planned)
-- ⏳ AI tool usage documentation (planned)
+- ✅ API documentation complete (API.md)
+- ✅ Setup instructions complete (README.md)
+- ✅ **Technical Writeup complete** (docs/TECHNICAL_WRITEUP.md) - Architecture deep dive
+- ✅ **Database Schema complete** (docs/DATABASE_SCHEMA.md) - ER diagram, indexes, queries
+- ✅ **Design Decisions complete** (docs/DESIGN_DECISIONS.md) - 20 decisions with rationale
+- ✅ **AI Tool Usage complete** (docs/AI_TOOL_USAGE.md) - Development chronicle
+- ✅ **Swagger Setup Guide complete** (docs/SWAGGER_SETUP.md) - OpenAPI implementation plan
+- ✅ **Documentation Index complete** (docs/README.md) - Navigation guide
+- ✅ **Total**: ~44 pages of comprehensive technical documentation
+- ⏳ Deployment guide (planned for PR33+)
 
 ## Next Milestones
 
@@ -276,8 +330,11 @@
 13. ✅ **PR27**: Frontend payment recording (Payment form, payment modal integration) - COMPLETE
 14. ✅ **PR28**: Frontend payment list page - COMPLETE
 15. ✅ **PR29**: UI polish and UX improvements - COMPLETE
-16. 📋 **PR30**: Performance optimization
-17. 📋 **PR31-PR34**: Deployment to AWS/Azure
+16. ✅ **PR30**: Performance optimization (Database indexes, pagination, connection pooling) - COMPLETE
+17. ✅ **PR31**: Documentation and Technical Writeup - COMPLETE (~44 pages, 6 documents)
+18. ✅ **PR32**: End-to-End Testing (Playwright framework, smoke tests, performance fixes) - COMPLETE
+19. 📋 **PR33**: AWS Deployment Preparation (EC2/S3/RDS setup, deployment scripts, documentation)
+20. 📋 **PR34**: Production Deployment (Actual deployment to AWS)
 
 ## Backend Completion Status
 

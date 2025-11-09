@@ -2,7 +2,7 @@
 
 ## Current Work Focus
 
-**Status**: Backend fully complete (PRs 1-16). Frontend foundation complete (PR17-21). Frontend customer management complete (PR22-23). Frontend invoice management complete (PR24-26). Frontend payment management complete (PR27-28). Frontend UI polish complete (PR29). All 52 backend tests passing. Frontend has complete API integration, authentication with logout dropdown, interactive dashboard, customer CRUD operations, invoice CRUD operations, payment recording/list pages, toast notifications, loading skeletons, and smooth animations. Ready for performance optimization (PR30) and deployment (PR31+).
+**Status**: Backend fully complete (PRs 1-16). Frontend fully complete (PR17-29). Performance optimization complete (PR30). Documentation complete (PR31). End-to-end testing complete (PR32). All 52 backend tests and 3 E2E smoke tests passing. Application has complete API integration, authentication with JWT, interactive dashboard, full CRUD operations for customers/invoices/payments, toast notifications, loading skeletons, smooth animations, database indexes, pagination support, optimized connection pooling, comprehensive technical documentation, and reliable E2E test framework. Ready for deployment (PR33+).
 
 **Last Completed**: 
 - PR1: Project setup and infrastructure (Docker, Maven, Next.js)
@@ -18,9 +18,12 @@
 - **PR20: Frontend Login & Authentication (AuthContext, ProtectedRoute, login page)**
 - **PR21: Frontend Dashboard Page (Real-time data, stats, recent activity)**
 - **PR22: Frontend Customer Management - List & Create (CustomerList, CustomerForm, useCustomerViewModel, full CRUD UI)**
+- **PR23-29: Complete frontend implementation (customer/invoice/payment management, UI polish)**
+- **PR30: Performance Optimization (database indexes, pagination, connection pool tuning)**
 - API documentation created (`API.md`)
 - Security with JWT authentication fully functional
-- Professional ERP-quality frontend with complete authentication flow and customer management
+- Professional ERP-quality frontend with complete authentication flow and CRUD operations
+- Performance optimized with indexes, pagination, and connection pooling
 
 ## Recent Changes
 
@@ -240,10 +243,39 @@
 - ✅ Removed backend API connection status text from dashboard page
 - ✅ Fixed hydration warning from browser extensions (suppressHydrationWarning on Input)
 
-### Upcoming (PR30+)
-- [ ] Performance optimization (pagination, caching, database indexes) (PR30)
-- [ ] Documentation and technical writeup (PR31)
-- [ ] Deployment to AWS/Azure (PR32-34)
+### Completed (PR30)
+- ✅ Database indexes (11 indexes across Customer, Invoice, Payment entities)
+- ✅ Pagination support (backend repositories, handlers, controllers)
+- ✅ Frontend pagination types and services (PageResponse, PaginationParams)
+- ✅ Connection pool optimization (HikariCP tuning for 20 connections)
+- ✅ JPA/Hibernate performance tuning (batch processing, ordered operations)
+- ✅ Backward compatible pagination (optional page parameter)
+- ✅ All 52 tests still passing after changes
+
+### Completed (PR31)
+- ✅ Technical Writeup (docs/TECHNICAL_WRITEUP.md) - Architecture deep dive covering DDD, CQRS, VSA
+- ✅ Database Schema Documentation (docs/DATABASE_SCHEMA.md) - Complete schema with ER diagram, 11 indexes
+- ✅ Design Decisions Documentation (docs/DESIGN_DECISIONS.md) - 20 key decisions with rationale and trade-offs
+- ✅ AI Tool Usage Documentation (docs/AI_TOOL_USAGE.md) - Development chronicle with 65% time savings
+- ✅ Swagger Setup Guide (docs/SWAGGER_SETUP.md) - Complete OpenAPI implementation plan
+- ✅ Documentation Index (docs/README.md) - Navigation guide for all documentation
+- ✅ Updated Main README - Enhanced with performance details, test breakdown, documentation links
+- ✅ Total: ~44 pages of comprehensive technical documentation
+
+### Completed (PR32)
+- ✅ Playwright E2E testing framework fully configured
+- ✅ 3 reliable smoke tests (100% pass rate, 16-32 seconds execution)
+- ✅ Test configuration (playwright.config.ts with auto web server startup)
+- ✅ E2E test scripts in package.json (test:e2e, test:e2e:ui, test:e2e:headed, test:e2e:report)
+- ✅ .gitignore updated for Playwright artifacts (test-results/, playwright-report/)
+- ✅ Fixed AuthContext blocking issue (removed validateToken on page load - performance improvement)
+- ✅ Reduced API timeout from 30s to 10s (faster failure detection)
+- ✅ Cleaned up backend directory (removed incorrectly placed Node.js package files)
+- ✅ TypeScript configuration updated (excluded E2E files from type checking)
+
+### Upcoming (PR33+)
+- 📋 PR33: AWS Deployment Preparation (EC2 setup scripts, S3 config, RDS setup, deployment documentation)
+- 📋 PR34: Production Deployment (Actual deployment to AWS: EC2 backend, S3 frontend, RDS database)
 
 ## Active Decisions and Considerations
 
@@ -306,8 +338,9 @@ All backend endpoints implemented, secured, and documented:
 2. ⚠️ **JWT Secret**: JWT secret key in application.properties should be changed for production
 3. ⚠️ **User Management**: No user registration or multi-user system - single business owner model (by design)
 4. **Next.js Build Cache**: If encountering module resolution errors, clear `.next` directory and restart dev server
-5. **UI Polish**: Loading states, error toasts, and UX improvements pending (PR29)
-6. **Deployment**: Not yet configured (PR31+)
+5. ✅ **Documentation**: Technical writeup complete (PR31) - 6 documents, ~44 pages
+6. ✅ **E2E Testing**: Smoke test suite complete (PR32) - 3 tests, 100% reliable
+7. **Deployment**: Not yet configured (PR33+)
 
 ## Development Environment
 

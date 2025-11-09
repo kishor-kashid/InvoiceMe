@@ -47,6 +47,7 @@
 #### Development Tools
 - **ESLint**: Code linting
 - **TypeScript Compiler**: Type checking
+- **Playwright**: End-to-end testing framework (3 smoke tests, 100% pass rate)
 
 ### Infrastructure
 
@@ -76,10 +77,14 @@
 - User: `invoiceme_user`
 - Password: `invoiceme_password`
 
-**Connection Pool (HikariCP)**:
-- Maximum pool size: 10
-- Minimum idle: 5
+**Connection Pool (HikariCP)** - Optimized in PR30:
+- Maximum pool size: 20 (increased from 10)
+- Minimum idle: 10 (increased from 5)
 - Connection timeout: 20 seconds
+- Max lifetime: 30 minutes
+- Idle timeout: 10 minutes
+- Leak detection threshold: 2 minutes
+- Connection validation enabled
 
 ### Application Configuration
 
@@ -88,6 +93,11 @@
 - JPA: `ddl-auto=update` (development)
 - SQL logging: Enabled in development
 - CORS: Configured for `http://localhost:3000`
+- **Performance (PR30)**:
+  - HikariCP: 20 max connections, lifecycle management
+  - JPA batch size: 20 for inserts/updates
+  - Hibernate: Ordered operations enabled
+  - Database indexes: Auto-created on startup
 
 **Frontend**:
 - Development server: `http://localhost:3000`
@@ -118,9 +128,11 @@ npm run type-check
 ## Technical Constraints
 
 ### Performance Requirements
-- API response times: **< 200ms** for standard CRUD operations
-- Database queries: Optimized with proper indexing
-- Connection pooling: Configured for optimal performance
+- API response times: **< 200ms** for standard CRUD operations (target)
+- Database queries: Optimized with 11 strategic indexes (PR30)
+- Connection pooling: HikariCP optimized for 20 connections (PR30)
+- Pagination: Default 20 items per page to reduce data transfer (PR30)
+- JPA batch operations: Size 20 for efficient bulk operations (PR30)
 
 ### Code Quality Standards
 - **Modularity**: Code organized by features (VSA)
@@ -181,6 +193,7 @@ npm run type-check
 - react-hook-form: ^7.49.2 (for form management)
 - zod: ^3.22.4 (for validation)
 - eslint: ^8.56.0
+- @playwright/test: ^1.40.1 (E2E testing)
 ```
 
 **Note**: Frontend dependencies are installed and actively used. API service layer fully implemented with axios. All customer and invoice management pages functional.

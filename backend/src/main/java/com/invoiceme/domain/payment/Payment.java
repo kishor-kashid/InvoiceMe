@@ -11,7 +11,11 @@ import java.util.Objects;
  * Represents a payment made against an invoice
  */
 @Entity
-@Table(name = "payments")
+@Table(name = "payments", indexes = {
+    @Index(name = "idx_payment_invoice_id", columnList = "invoice_id"),
+    @Index(name = "idx_payment_date", columnList = "payment_date"),
+    @Index(name = "idx_payment_created_at", columnList = "created_at")
+})
 public class Payment {
     
     @EmbeddedId
