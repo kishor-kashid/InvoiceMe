@@ -9,7 +9,10 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
  * Enables JPA repositories and transaction management
  */
 @Configuration
-@EnableJpaRepositories(basePackages = "com.invoiceme.infrastructure.persistence")
+@EnableJpaRepositories(basePackages = {
+        "com.invoiceme.infrastructure.persistence",
+        "com.invoiceme.infrastructure.security"
+})
 @EnableTransactionManagement
 public class JpaConfig {
     // Additional JPA configuration can be added here if needed

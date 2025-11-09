@@ -10,10 +10,15 @@ This document describes the RESTful API endpoints for the InvoiceMe application.
 
 **Architecture:** CQRS (Command Query Responsibility Segregation)
 
+**Authentication:** JWT Bearer Token (required for all endpoints except `/api/auth/**`)
+
 ---
 
 ## Table of Contents
 
+- [Authentication](#authentication)
+  - [Login](#login)
+  - [Register](#register)
 - [Customer Management](#customer-management)
   - [Create Customer](#create-customer)
   - [Get Customer by ID](#get-customer-by-id)
@@ -34,13 +39,112 @@ This document describes the RESTful API endpoints for the InvoiceMe application.
 
 ---
 
+## Authentication
+
+All API endpoints (except authentication endpoints) require a JWT token in the Authorization header:
+```
+Authorization: Bearer <token>
+```
+
+### Login
+
+Authenticate a user and receive a JWT token.
+
+**Endpoint:** `POST /api/auth/login`
+
+**Request Body:**
+```json
+{
+  "username": "admin",
+  "password": "admin123"
+}
+```
+
+**Response:** `200 OK`
+```json
+{
+  "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...",
+  "type": "Bearer",
+  "username": "admin"
+}
+```
+
+**Validation Rules:**
+- `username`: Required, cannot be blank
+- `password`: Required, cannot be blank
+
+**Error Responses:**
+- `400 Bad Request`: Validation failed
+- `401 Unauthorized`: Invalid credentials
+
+**Example cURL:**
+```bash
+curl -X POST http://localhost:8080/api/auth/login \
+  -H "Content-Type: application/json" \
+  -d '{
+    "username": "admin",
+    "password": "admin123"
+  }'
+```
+
+---
+
+### Register
+
+Register a new user account (optional, for creating test users).
+
+**Endpoint:** `POST /api/auth/register`
+
+**Request Body:**
+```json
+{
+  "username": "newuser",
+  "email": "user@example.com",
+  "password": "password123"
+}
+```
+
+**Response:** `201 Created`
+```json
+{
+  "message": "User registered successfully"
+}
+```
+
+**Validation Rules:**
+- `username`: Required, 3-50 characters, must be unique
+- `email`: Required, must be valid email format, must be unique
+- `password`: Required, minimum 6 characters
+
+**Error Responses:**
+- `400 Bad Request`: Validation failed or username/email already exists
+
+**Example cURL:**
+```bash
+curl -X POST http://localhost:8080/api/auth/register \
+  -H "Content-Type: application/json" \
+  -d '{
+    "username": "newuser",
+    "email": "user@example.com",
+    "password": "password123"
+  }'
+```
+
+**Note:** After registration, use the login endpoint to obtain a JWT token.
+
+---
+
 ## Customer Management
+
+**Note:** All customer endpoints require authentication. Include the JWT token in the Authorization header.
 
 ### Create Customer
 
 Create a new customer in the system.
 
 **Endpoint:** `POST /api/customers`
+
+**Authentication:** Required (JWT Bearer Token)
 
 **Request Body:**
 ```json
@@ -83,6 +187,8 @@ Create a new customer in the system.
 Retrieve a specific customer by their ID.
 
 **Endpoint:** `GET /api/customers/{id}`
+
+**Authentication:** Required (JWT Bearer Token)
 
 **Path Parameters:**
 - `id` (string): Customer ID

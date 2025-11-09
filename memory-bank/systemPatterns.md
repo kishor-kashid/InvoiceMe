@@ -73,7 +73,12 @@ features/
   - `JpaCustomerRepository`
   - `JpaInvoiceRepository`
   - `JpaPaymentRepository`
-- **Security**: (Planned for PR15) JWT service, user management
+- **Security**: JWT authentication and user management
+  - `UserEntity` - User domain entity
+  - `UserRepository` - JPA repository for users
+  - `JwtService` - JWT token generation/validation
+  - `JwtAuthenticationFilter` - Request authentication filter
+  - `UserDetailsServiceImpl` - Spring Security user details service
 
 ### Shared Layer
 **Location**: `backend/src/main/java/com/invoiceme/shared/`
@@ -85,6 +90,17 @@ features/
 - **DTOs**: Error response DTOs (`ErrorResponse`, `ValidationErrorResponse`)
 - **Mappers**: `DtoMapper` for converting domain entities to DTOs
 - **Validation**: Jakarta Bean Validation with custom validators
+
+### Configuration Layer
+**Location**: `backend/src/main/java/com/invoiceme/config/`
+
+**Purpose**: Application-wide configuration.
+
+**Components**:
+- **SecurityConfig**: JWT authentication, BCrypt password encoder, stateless sessions
+- **JpaConfig**: JPA repository scanning (persistence and security packages)
+- **CorsConfig**: CORS configuration for frontend integration
+- **DataInitializer**: Creates default admin user on startup
 
 ## Key Design Patterns
 
@@ -197,10 +213,13 @@ Customer (1) ──< (many) Invoice (1) ──< (many) Payment
 **Location**: `frontend/src/`
 
 **Structure**:
-- **Models**: TypeScript types/interfaces (`types/`)
+- **Models**: TypeScript types/interfaces (`types/`) - *Planned*
 - **Views**: React components (`components/`, `app/`)
-- **ViewModels**: Custom hooks (`viewmodels/`)
-- **Services**: API communication layer (`services/`)
+  - Currently: Basic Next.js App Router structure (`app/layout.tsx`, `app/page.tsx`)
+- **ViewModels**: Custom hooks (`viewmodels/`) - *Planned*
+- **Services**: API communication layer (`services/`) - *Planned*
 
 **Pattern**: ViewModels mediate between Views and Services, handling presentation logic and state management.
+
+**Current Status**: Frontend is in initial setup phase. Next.js project is initialized with basic structure. Full MVVM implementation planned for PR17+.
 
