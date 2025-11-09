@@ -12,6 +12,12 @@ import {
 
 const CUSTOMERS_ENDPOINT = '/customers';
 
+// Helper function to get customer by ID (used internally)
+const getCustomerById = async (id: string): Promise<Customer> => {
+  const response = await apiClient.get<Customer>(`${CUSTOMERS_ENDPOINT}/${id}`);
+  return response.data;
+};
+
 export const customerService = {
   /**
    * Get all customers
@@ -24,17 +30,16 @@ export const customerService = {
   /**
    * Get customer by ID
    */
-  getById: async (id: string): Promise<Customer> => {
-    const response = await apiClient.get<Customer>(`${CUSTOMERS_ENDPOINT}/${id}`);
-    return response.data;
-  },
+  getById: getCustomerById,
 
   /**
    * Create new customer
+   * Backend returns { id: string, message: string }, so we fetch the created customer
    */
   create: async (data: CreateCustomerRequest): Promise<Customer> => {
-    const response = await apiClient.post<Customer>(CUSTOMERS_ENDPOINT, data);
-    return response.data;
+    const response = await apiClient.post<{ id: string; message: string }>(CUSTOMERS_ENDPOINT, data);
+    // Fetch the created customer by ID
+    return await getCustomerById(response.data.id);
   },
 
   /**
@@ -54,9 +59,10 @@ export const customerService = {
 
   /**
    * Search customers by name or email
+   * Note: Currently returns all customers - filtering is done client-side
    */
   search: async (query: string): Promise<Customer[]> => {
-    const response = await apiClient.get<Customer[]>(CUSTOMERS_ENDPOINT, { q: query });
+    const response = await apiClient.get<Customer[]>(CUSTOMERS_ENDPOINT);
     return response.data;
   },
 };

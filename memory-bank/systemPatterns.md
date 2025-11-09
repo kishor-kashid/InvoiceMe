@@ -220,15 +220,17 @@ Customer (1) ──< (many) Invoice (1) ──< (many) Payment
 - **Views**: React components (`components/`, `app/`)
   - Layout components (Header, Sidebar, Layout)
   - UI component library (Button, Input, Card, Table, Badge, Modal, Spinner)
-  - Pages (Login, Dashboard)
+  - Customer components (CustomerList, CustomerForm)
+  - Pages (Login, Dashboard, Customers List, Customer Create)
 - **ViewModels**: Custom hooks (`viewmodels/`) - ✅ IMPLEMENTED
   - useAuthViewModel (authentication logic)
   - useDashboardViewModel (dashboard data and calculations)
+  - useCustomerViewModel (customer CRUD, search/filter, form validation)
 - **Services**: API communication layer (`services/`) - ✅ COMPLETE
   - Base API configuration (axios with interceptors)
   - customerService, invoiceService, paymentService, authService
 
 **Pattern**: ViewModels mediate between Views and Services, handling presentation logic and state management.
 
-**Current Status**: Frontend foundation complete with full MVVM implementation. Type system, API services, UI components, authentication, and dashboard all functional. Ready for feature pages (PR22+).
+**Current Status**: Frontend foundation complete with full MVVM implementation. Type system, API services, UI components, authentication, dashboard, and customer management all functional. Customer list and create pages complete (PR22). Ready for customer detail/edit pages (PR23) and invoice management (PR24+).
 

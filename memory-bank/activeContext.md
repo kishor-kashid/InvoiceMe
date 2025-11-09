@@ -2,7 +2,7 @@
 
 ## Current Work Focus
 
-**Status**: Backend fully complete (PRs 1-16). Frontend foundation complete (PR17-21). All 52 backend tests passing. Frontend has complete API integration, authentication, and interactive dashboard. Ready for customer/invoice management pages (PR22+).
+**Status**: Backend fully complete (PRs 1-16). Frontend foundation complete (PR17-21). Frontend customer management complete (PR22). All 52 backend tests passing. Frontend has complete API integration, authentication, interactive dashboard, and customer CRUD operations. Ready for invoice management pages (PR23+).
 
 **Last Completed**: 
 - PR1: Project setup and infrastructure (Docker, Maven, Next.js)
@@ -17,9 +17,10 @@
 - **PR19: Frontend UI Components Library (Button, Input, Card, Table, Badge, Modal, Spinner)**
 - **PR20: Frontend Login & Authentication (AuthContext, ProtectedRoute, login page)**
 - **PR21: Frontend Dashboard Page (Real-time data, stats, recent activity)**
+- **PR22: Frontend Customer Management - List & Create (CustomerList, CustomerForm, useCustomerViewModel, full CRUD UI)**
 - API documentation created (`API.md`)
 - Security with JWT authentication fully functional
-- Professional ERP-quality frontend with complete authentication flow
+- Professional ERP-quality frontend with complete authentication flow and customer management
 
 ## Recent Changes
 
@@ -145,12 +146,23 @@
 - ✅ Recent activity timeline (payment, sent, customer, invoice events)
 - ✅ Loading states, error handling, refresh functionality
 
-### Upcoming (PR22+)
-- [ ] Frontend customer management pages (list, create, edit, detail)
-- [ ] Frontend invoice management pages (list, create, edit, detail, line items)
-- [ ] Frontend payment management pages (list, record payment)
-- [ ] UI polish and UX improvements (PR29)
-- [ ] Performance optimization (PR30)
+### Completed (PR22)
+- ✅ useCustomerViewModel (MVVM pattern, CRUD operations, form validation, search/filter)
+- ✅ CustomerList component (professional table with View/Edit/Delete actions)
+- ✅ CustomerForm component (comprehensive validation, error handling, create/edit modes)
+- ✅ Customer list page (/customers) with search, stats, delete confirmation
+- ✅ Customer create page (/customers/new) with form validation
+- ✅ Full integration with backend API (create, list, update, delete)
+- ✅ Type system aligned with backend (zipCode field, flat request structure)
+- ✅ Import fixes (centralized UI component imports)
+- ✅ Hydration warning suppression (browser extension compatibility)
+
+### Upcoming (PR23+)
+- [ ] Frontend customer detail and edit pages (PR23)
+- [ ] Frontend invoice management pages (list, create, edit, detail, line items) (PR24-28)
+- [ ] Frontend payment management pages (list, record payment) (PR29)
+- [ ] UI polish and UX improvements (PR30)
+- [ ] Performance optimization (PR31)
 - [ ] Deployment to AWS/Azure (PR32-34)
 
 ## Active Decisions and Considerations
@@ -213,8 +225,9 @@ All backend endpoints implemented, secured, and documented:
 1. ⚠️ **Default Admin Password**: Default admin user has password `admin123` - must be changed in production
 2. ⚠️ **JWT Secret**: JWT secret key in application.properties should be changed for production
 3. ⚠️ **User Management**: No user registration or multi-user system - single business owner model (by design)
-4. **Customer/Invoice Pages**: Not yet implemented (PR22-28)
-5. **Deployment**: Not yet configured (PR32+)
+4. **Customer Pages**: List and Create complete (PR22). Detail and Edit pages pending (PR23)
+5. **Invoice Pages**: Not yet implemented (PR24-28)
+6. **Deployment**: Not yet configured (PR32+)
 
 ## Development Environment
 

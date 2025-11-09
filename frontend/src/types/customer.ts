@@ -6,7 +6,7 @@ export interface Address {
   street: string;
   city: string;
   state: string;
-  postalCode: string;
+  zipCode: string; // Backend uses zipCode
   country: string;
 }
 
@@ -24,14 +24,22 @@ export interface CreateCustomerRequest {
   name: string;
   email: string;
   phone: string;
-  address: Address;
+  street: string;
+  city: string;
+  state: string;
+  zipCode: string;
+  country: string;
 }
 
 export interface UpdateCustomerRequest {
   name: string;
   email: string;
   phone: string;
-  address: Address;
+  street: string;
+  city: string;
+  state: string;
+  zipCode: string;
+  country: string;
 }
 
 export interface CustomerListResponse {
