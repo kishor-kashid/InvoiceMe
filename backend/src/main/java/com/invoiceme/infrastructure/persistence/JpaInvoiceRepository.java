@@ -40,7 +40,18 @@ public interface JpaInvoiceRepository extends JpaRepository<Invoice, InvoiceId>,
     List<Invoice> findByCustomerId(@Param("customerId") CustomerId customerId);
     
     @Override
+    @Query("SELECT i FROM Invoice i WHERE i.customerId.id = :#{#customerId.id}")
+    org.springframework.data.domain.Page<Invoice> findByCustomerId(
+        @Param("customerId") CustomerId customerId, 
+        org.springframework.data.domain.Pageable pageable);
+    
+    @Override
     List<Invoice> findByStatus(InvoiceStatus status);
+    
+    @Override
+    org.springframework.data.domain.Page<Invoice> findByStatus(
+        InvoiceStatus status, 
+        org.springframework.data.domain.Pageable pageable);
     
     @Override
     @Query("SELECT i FROM Invoice i WHERE i.customerId.id = :#{#customerId.id} AND i.status = :status")

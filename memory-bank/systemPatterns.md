@@ -208,6 +208,31 @@ Customer (1) ──< (many) Invoice (1) ──< (many) Payment
 - All controllers use `@Valid` annotation on request bodies
 - Validation errors automatically handled by `GlobalExceptionHandler`
 
+## Performance Optimization Patterns (PR30)
+
+**Database Indexing**:
+- Strategic indexes on frequently queried columns
+- Composite indexes for multi-column queries (e.g., customer_id + status)
+- Automatic index creation via JPA `@Index` annotations
+
+**Pagination Pattern**:
+- Optional pagination: Omit `page` parameter for all results (backward compatible)
+- Standard parameters: `page`, `size`, `sortBy`, `direction`
+- Backend: Spring Data `Page<T>` and `Pageable`
+- Frontend: `PageResponse<T>` with metadata
+- Default page size: 20 items
+
+**Connection Pooling** (HikariCP):
+- Pool size: 20 max connections, 10 minimum idle
+- Connection lifecycle: 30 min max lifetime, 10 min idle timeout
+- Leak detection: 2-minute threshold
+- Validation: Test query before use
+
+**JPA Optimization**:
+- Batch operations: Size 20 for inserts/updates
+- Ordered operations: Inserts and updates ordered for efficiency
+- Query optimization: Use indexes automatically
+
 ## Frontend Architecture (MVVM)
 
 **Location**: `frontend/src/`
@@ -216,7 +241,7 @@ Customer (1) ──< (many) Invoice (1) ──< (many) Payment
 - **Models**: TypeScript types/interfaces (`types/`) - ✅ COMPLETE
   - Customer, Invoice, Payment, Auth types
   - API error and response types
-  - Pagination types
+  - Pagination types (PageResponse, PaginationParams)
 - **Views**: React components (`components/`, `app/`)
   - Layout components (Header, Sidebar, Layout)
   - UI component library (Button, Input, Card, Table, Badge, Modal, Spinner)

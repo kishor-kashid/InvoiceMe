@@ -16,18 +16,21 @@
 - ✅ JPA configuration with multi-package repository scanning
 - ✅ Maven wrapper setup
 - ✅ Security infrastructure (JWT, UserDetails, Authentication Filter)
+- ✅ **Database indexes** (11 strategic indexes for query optimization)
+- ✅ **Pagination support** (Page/Pageable interfaces, all repositories)
+- ✅ **Connection pool optimization** (HikariCP 20 connections, lifecycle management)
 
 ### Backend - Application Layer (API)
 - ✅ **Customer Endpoints**:
   - POST /api/customers - Create customer
-  - GET /api/customers - List all customers
+  - GET /api/customers - List all customers (with optional pagination)
   - GET /api/customers/{id} - Get customer by ID
   - PUT /api/customers/{id} - Update customer
   - DELETE /api/customers/{id} - Delete customer
 
 - ✅ **Invoice Endpoints**:
   - POST /api/invoices - Create invoice with line items
-  - GET /api/invoices - List invoices (with filters)
+  - GET /api/invoices - List invoices (with filters and optional pagination)
   - GET /api/invoices/{id} - Get invoice by ID
   - PUT /api/invoices/{id} - Update invoice (DRAFT only)
   - POST /api/invoices/{id}/send - Mark invoice as sent
@@ -35,6 +38,7 @@
   - GET /api/invoices/{id}/payments - List payments for invoice
 
 - ✅ **Payment Endpoints**:
+  - GET /api/payments - List all payments (with optional pagination)
   - GET /api/payments/{id} - Get payment by ID
 
 ### Backend - Shared Components
@@ -101,10 +105,12 @@
 - ✅ Dashboard page with stats and quick actions
 - ✅ Environment variables documentation
 
-### Frontend - Types & API Services (PR18)
+### Frontend - Types & API Services (PR18, PR30)
 - ✅ TypeScript type definitions (Customer, Invoice, Payment, Auth, API types)
+- ✅ **Pagination types** (PageResponse, PaginationParams, defaults)
 - ✅ Base API configuration (axios with interceptors)
 - ✅ API services (customerService, invoiceService, paymentService)
+- ✅ **Pagination methods** (getAllPaginated for all services)
 - ✅ Auth service (login, logout, token management, validation)
 
 ### Frontend - UI Components Library (PR19)
@@ -217,9 +223,11 @@
 - ✅ **PR26: Frontend Invoice Management - Edit (Invoice edit page for DRAFT invoices)**
 - ✅ **PR27: Frontend Payment Recording (PaymentForm, usePaymentViewModel, modal integration)**
 - ✅ **PR28: Frontend Payment List Page (PaymentList component, /payments page, statistics)**
+- ✅ **PR29: UI Polish & UX Improvements (Toast notifications, loading skeletons, animations)**
+- ✅ **PR30: Performance Optimization (Database indexes, pagination, connection pooling)**
 
 ### Next Up
-- 📋 PR30: Performance Optimization (pagination, caching, database indexes)
+- 📋 PR31: Documentation and technical writeup
 
 ### Remaining
 - 📋 PR30-PR34: Performance optimization, documentation, and deployment
@@ -229,13 +237,18 @@
 1. ⚠️ **Default Admin Password**: Default admin user created with password `admin123` - MUST be changed for production deployment
 2. ⚠️ **JWT Secret Key**: JWT secret in application.properties should be replaced with secure key for production
 3. **Next.js Build Cache**: If encountering "Cannot find module" errors, clear `.next` directory and restart dev server
-4. **Payment Pagination**: Payment list loads all payments at once (no pagination yet) - will be addressed in PR30
+4. **Documentation**: Technical writeup and deployment guide pending (PR31+)
 5. **Deployment**: Not yet configured (PR32+)
 
 ## Performance Status
 
 - ✅ API endpoints responding
-- ✅ Build time: ~58 seconds for clean build with all tests
+- ✅ Build time: ~50 seconds for clean build with all tests
+- ✅ **Database indexes** added for optimized queries
+- ✅ **Pagination support** implemented (default 20 items per page)
+- ✅ **Connection pooling** optimized (20 max connections, leak detection)
+- ✅ **JPA batch operations** enabled (batch size: 20)
+- ✅ Performance optimizations complete (PR30)
 - ⏳ Performance benchmarks not yet measured (target: < 200ms)
 - ⏳ Load testing not yet performed
 
@@ -276,8 +289,9 @@
 13. ✅ **PR27**: Frontend payment recording (Payment form, payment modal integration) - COMPLETE
 14. ✅ **PR28**: Frontend payment list page - COMPLETE
 15. ✅ **PR29**: UI polish and UX improvements - COMPLETE
-16. 📋 **PR30**: Performance optimization
-17. 📋 **PR31-PR34**: Deployment to AWS/Azure
+16. ✅ **PR30**: Performance optimization (Database indexes, pagination, connection pooling) - COMPLETE
+17. 📋 **PR31**: Documentation and technical writeup
+18. 📋 **PR32-PR34**: Deployment to AWS/Azure
 
 ## Backend Completion Status
 

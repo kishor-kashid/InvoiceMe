@@ -1,6 +1,8 @@
 package com.invoiceme.domain.payment;
 
 import com.invoiceme.domain.invoice.InvoiceId;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import java.util.List;
 import java.util.Optional;
 
@@ -24,6 +26,11 @@ public interface PaymentRepository {
      * Find all payments
      */
     List<Payment> findAll();
+    
+    /**
+     * Find all payments with pagination
+     */
+    Page<Payment> findAll(Pageable pageable);
     
     /**
      * Find all payments for a specific invoice
