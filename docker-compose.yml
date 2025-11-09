@@ -1,0 +1,27 @@
+services:
+  postgres:
+    image: postgres:15-alpine
+    container_name: invoiceme-postgres
+    environment:
+      POSTGRES_DB: invoiceme
+      POSTGRES_USER: invoiceme_user
+      POSTGRES_PASSWORD: invoiceme_password
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U invoiceme_user -d invoiceme"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    networks:
+      - invoiceme-network
+
+volumes:
+  postgres_data:
+
+networks:
+  invoiceme-network:
+    driver: bridge
+
