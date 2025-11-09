@@ -213,13 +213,24 @@ Customer (1) ──< (many) Invoice (1) ──< (many) Payment
 **Location**: `frontend/src/`
 
 **Structure**:
-- **Models**: TypeScript types/interfaces (`types/`) - *Planned*
+- **Models**: TypeScript types/interfaces (`types/`) - ✅ COMPLETE
+  - Customer, Invoice, Payment, Auth types
+  - API error and response types
+  - Pagination types
 - **Views**: React components (`components/`, `app/`)
-  - Currently: Basic Next.js App Router structure (`app/layout.tsx`, `app/page.tsx`)
-- **ViewModels**: Custom hooks (`viewmodels/`) - *Planned*
-- **Services**: API communication layer (`services/`) - *Planned*
+  - Layout components (Header, Sidebar, Layout)
+  - UI component library (Button, Input, Card, Table, Badge, Modal, Spinner)
+  - Customer components (CustomerList, CustomerForm)
+  - Pages (Login, Dashboard, Customers List, Customer Create)
+- **ViewModels**: Custom hooks (`viewmodels/`) - ✅ IMPLEMENTED
+  - useAuthViewModel (authentication logic)
+  - useDashboardViewModel (dashboard data and calculations)
+  - useCustomerViewModel (customer CRUD, search/filter, form validation)
+- **Services**: API communication layer (`services/`) - ✅ COMPLETE
+  - Base API configuration (axios with interceptors)
+  - customerService, invoiceService, paymentService, authService
 
 **Pattern**: ViewModels mediate between Views and Services, handling presentation logic and state management.
 
-**Current Status**: Frontend is in initial setup phase. Next.js project is initialized with basic structure. Full MVVM implementation planned for PR17+.
+**Current Status**: Frontend foundation complete with full MVVM implementation. Type system, API services, UI components, authentication, dashboard, and customer management all functional. Customer list and create pages complete (PR22). Ready for customer detail/edit pages (PR23) and invoice management (PR24+).
 

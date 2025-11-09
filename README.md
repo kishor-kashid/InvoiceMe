@@ -86,21 +86,44 @@ You should see the `invoiceme-postgres` container running.
 
 ### 3. Configure Environment Variables
 
-Copy the example environment file (if available) or create a `.env` file in the root directory with the following variables:
+#### Development Mode (Default)
+
+For local development, the application uses default credentials:
+- **Username**: `admin`
+- **Password**: `admin123`
+- **JWT Secret**: Default key (change for production!)
+
+These are automatically created on first startup.
+
+#### Production Mode
+
+**⚠️ CRITICAL**: For production deployment, you MUST set environment variables:
+
+```bash
+# Required for Production
+export ADMIN_USERNAME=your_secure_username
+export ADMIN_PASSWORD=your_secure_password_here
+export ADMIN_EMAIL=admin@yourcompany.com
+export JWT_SECRET=your-256-bit-secret-key-minimum-length-here
+
+# Database Configuration
+export DATABASE_URL=jdbc:postgresql://your-db-host:5432/invoiceme
+export DATABASE_USERNAME=your_db_user
+export DATABASE_PASSWORD=your_db_password
+
+# Optional
+export CORS_ALLOWED_ORIGINS=https://yourdomain.com
+export PORT=8080
+export SPRING_PROFILES_ACTIVE=prod
+```
+
+**See [PRODUCTION_SETUP.md](backend/PRODUCTION_SETUP.md) for detailed production deployment guide.**
+
+#### Frontend Environment Variables
+
+Create `frontend/.env.local`:
 
 ```env
-DB_HOST=localhost
-DB_PORT=5432
-DB_NAME=invoiceme
-DB_USER=invoiceme_user
-DB_PASSWORD=invoiceme_password
-
-SPRING_PROFILES_ACTIVE=dev
-SERVER_PORT=8080
-
-JWT_SECRET=your-secret-key-change-in-production
-JWT_EXPIRATION=86400000
-
 NEXT_PUBLIC_API_URL=http://localhost:8080/api
 ```
 
@@ -280,17 +303,55 @@ See the technical documentation for detailed schema information.
 - Password encryption with BCrypt
 - CORS configuration for frontend communication
 - Input validation on all endpoints
+- **Environment variable-based configuration for production**
+- **No hardcoded credentials in production mode**
+
+### Security Best Practices
+
+1. **Never use default credentials in production**
+   - Set `ADMIN_USERNAME`, `ADMIN_PASSWORD`, and `JWT_SECRET` environment variables
+   - Use strong passwords (16+ characters with mixed case, numbers, symbols)
+   - Generate secure JWT secret (256+ bits)
+
+2. **Production Profile**
+   - Activate `prod` profile: `SPRING_PROFILES_ACTIVE=prod`
+   - Uses `application-prod.properties` with stricter settings
+   - Disables SQL logging and debug output
+
+3. **Secrets Management**
+   - Use AWS Secrets Manager, Azure Key Vault, or similar for cloud deployments
+   - Never commit secrets to version control
+   - Rotate secrets regularly
+
+See **[PRODUCTION_SETUP.md](backend/PRODUCTION_SETUP.md)** for complete security guidelines.
 
 ## 🚢 Deployment
+
+### Production Deployment
+
+**⚠️ IMPORTANT**: Before deploying to production:
+
+1. **Set all required environment variables** (see Production Mode above)
+2. **Activate production profile**: `SPRING_PROFILES_ACTIVE=prod`
+3. **Generate secure JWT secret**: `openssl rand -hex 32`
+4. **Use strong admin password**: Minimum 16 characters
+5. **Configure database**: Set `DATABASE_URL`, `DATABASE_USERNAME`, `DATABASE_PASSWORD`
 
 ### AWS Deployment
 
 1. Set up AWS RDS PostgreSQL instance
-2. Configure environment variables for production
+2. Configure environment variables (use AWS Secrets Manager or Parameter Store)
 3. Deploy backend to AWS EC2 or ECS
 4. Deploy frontend to Vercel, Netlify, or AWS S3/CloudFront
 
-See `docs/DEPLOYMENT.md` for detailed deployment instructions.
+### Azure Deployment
+
+1. Set up Azure Database for PostgreSQL
+2. Configure environment variables (use Azure Key Vault)
+3. Deploy backend to Azure App Service or Container Instances
+4. Deploy frontend to Azure Static Web Apps or App Service
+
+**See [PRODUCTION_SETUP.md](backend/PRODUCTION_SETUP.md) for detailed deployment instructions.**
 
 ## 📝 Development Guidelines
 
