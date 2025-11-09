@@ -5,7 +5,10 @@
 **Status**: Backend API implementation complete (PRs 1-14), exception handling and validation fully implemented. Ready for authentication and frontend development.
 
 **Last Completed**: 
-- PR6-PR13: All customer, invoice, and payment API endpoints implemented
+- PR1: Project setup and infrastructure (Docker, Maven, Next.js)
+- PR2-PR5: Domain layer (Customer, Invoice, Payment aggregates with value objects)
+- PR6-PR10: Customer API endpoints (CRUD operations)
+- PR11-PR13: Invoice and Payment API endpoints (lifecycle management)
 - PR14: Exception handling and validation fully implemented and tested
 - API documentation created (`API.md`)
 - Security configuration temporarily set to allow unauthenticated API access

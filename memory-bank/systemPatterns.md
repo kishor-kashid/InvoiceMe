@@ -197,10 +197,13 @@ Customer (1) ──< (many) Invoice (1) ──< (many) Payment
 **Location**: `frontend/src/`
 
 **Structure**:
-- **Models**: TypeScript types/interfaces (`types/`)
+- **Models**: TypeScript types/interfaces (`types/`) - *Planned*
 - **Views**: React components (`components/`, `app/`)
-- **ViewModels**: Custom hooks (`viewmodels/`)
-- **Services**: API communication layer (`services/`)
+  - Currently: Basic Next.js App Router structure (`app/layout.tsx`, `app/page.tsx`)
+- **ViewModels**: Custom hooks (`viewmodels/`) - *Planned*
+- **Services**: API communication layer (`services/`) - *Planned*
 
 **Pattern**: ViewModels mediate between Views and Services, handling presentation logic and state management.
+
+**Current Status**: Frontend is in initial setup phase. Next.js project is initialized with basic structure. Full MVVM implementation planned for PR17+.
 

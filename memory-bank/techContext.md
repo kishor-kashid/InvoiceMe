@@ -160,13 +160,16 @@ npm run type-check
 
 ### Frontend Key Dependencies
 ```json
-- next
-- react
-- react-dom
-- typescript
-- tailwindcss
-- postcss
-- eslint
+- next: ^14.0.4
+- react: ^18.2.0
+- react-dom: ^18.2.0
+- typescript: ^5.3.3
+- tailwindcss: ^3.3.6
+- postcss: ^8.4.32
+- axios: ^1.6.2 (for API calls)
+- react-hook-form: ^7.49.2 (for form management)
+- zod: ^3.22.4 (for validation)
+- eslint: ^8.56.0
 ```
 
 ## Development Workflow

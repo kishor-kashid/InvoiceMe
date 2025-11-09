@@ -76,10 +76,12 @@
 - [ ] End-to-end workflow tests
 
 ### Frontend - Setup (PR17)
-- [ ] Project structure setup
+- [x] Next.js project initialized
+- [x] Basic layout structure (app/layout.tsx, app/page.tsx)
+- [x] Tailwind CSS configured
 - [ ] Type definitions
 - [ ] API service layer
-- [ ] Base components
+- [ ] Base UI components
 
 ### Frontend - Authentication (PR18)
 - [ ] Login page
