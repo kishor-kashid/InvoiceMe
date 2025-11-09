@@ -30,7 +30,7 @@ public class LineItem {
     private Money unitPrice;
     
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "invoice_id")
+    @JoinColumn(name = "invoice_id", insertable = false, updatable = false)
     private Invoice invoice;
     
     // Required for JPA
