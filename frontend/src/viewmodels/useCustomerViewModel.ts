@@ -8,6 +8,7 @@ import { useState, useEffect, useCallback } from 'react';
 import { useRouter } from 'next/navigation';
 import { customerService } from '@/services';
 import { Customer, CreateCustomerRequest, UpdateCustomerRequest, ApiError } from '@/types';
+import { useToast } from '@/components/ui';
 
 export interface CustomerFormData {
   name: string;
@@ -34,6 +35,7 @@ export interface FormErrors {
 
 export const useCustomerViewModel = () => {
   const router = useRouter();
+  const toast = useToast();
   const [customers, setCustomers] = useState<Customer[]>([]);
   const [selectedCustomer, setSelectedCustomer] = useState<Customer | null>(null);
   const [isLoading, setIsLoading] = useState(false);
@@ -108,6 +110,8 @@ export const useCustomerViewModel = () => {
       // Refresh customer list
       await loadCustomers();
       
+      toast.success('Customer created successfully');
+      
       // Navigate to customer detail page
       router.push(`/customers/${newCustomer.id}`);
       return true;
@@ -130,7 +134,9 @@ export const useCustomerViewModel = () => {
         });
         setFormErrors(backendErrors);
       } else {
-        setFormErrors({ general: apiError.message || 'Failed to create customer' });
+        const errorMessage = apiError.message || 'Failed to create customer';
+        setFormErrors({ general: errorMessage });
+        toast.error(errorMessage);
       }
       
       console.error('Create customer error:', err);
@@ -171,6 +177,8 @@ export const useCustomerViewModel = () => {
       // Refresh customer list
       await loadCustomers();
       
+      toast.success('Customer updated successfully');
+      
       return true;
     } catch (err) {
       const apiError = err as ApiError;
@@ -191,7 +199,9 @@ export const useCustomerViewModel = () => {
         });
         setFormErrors(backendErrors);
       } else {
-        setFormErrors({ general: apiError.message || 'Failed to update customer' });
+        const errorMessage = apiError.message || 'Failed to update customer';
+        setFormErrors({ general: errorMessage });
+        toast.error(errorMessage);
       }
       
       console.error('Update customer error:', err);
@@ -217,10 +227,14 @@ export const useCustomerViewModel = () => {
         setSelectedCustomer(null);
       }
       
+      toast.success('Customer deleted successfully');
+      
       return true;
     } catch (err) {
       const apiError = err as ApiError;
-      setError(apiError.message || 'Failed to delete customer');
+      const errorMessage = apiError.message || 'Failed to delete customer';
+      setError(errorMessage);
+      toast.error(errorMessage);
       console.error('Delete customer error:', err);
       return false;
     } finally {

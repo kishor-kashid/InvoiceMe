@@ -64,6 +64,7 @@ const Input = forwardRef<HTMLInputElement, InputProps>(
               iconPaddingRight,
               className
             )}
+            suppressHydrationWarning
             {...props}
           />
           

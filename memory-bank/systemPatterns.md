@@ -244,4 +244,6 @@ Customer (1) ──< (many) Invoice (1) ──< (many) Payment
 - **Suspense Boundaries**: Next.js App Router requires Suspense boundaries for components using `useSearchParams`. Proper placement ensures correct server-side rendering.
 - **Date/Time Handling**: Payment dates are converted from HTML date input format (`YYYY-MM-DD`) to LocalDateTime format (`YYYY-MM-DDTHH:mm:ss`) for backend compatibility.
 - **Type Safety**: LineItem interface uses `total: Money` instead of `amount: Money` to match backend DTO structure.
+- **Authentication Flow**: Logout dropdown in Header provides user menu with logout functionality. Integrates with AuthContext for token management and navigation.
+- **Hydration Warnings**: Input components use `suppressHydrationWarning` to handle browser extension attributes (password managers, form fillers) without console warnings.
 

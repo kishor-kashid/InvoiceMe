@@ -172,6 +172,21 @@
 - ✅ useDashboardViewModel (data fetching, calculations, activity generation)
 - ✅ Loading states, error handling, refresh functionality
 
+### Frontend - UI Polish & UX (PR29)
+- ✅ Toast notification system (Toast, ToastContainer, ToastProvider)
+- ✅ Success/error/info/warning toast variants with auto-dismiss
+- ✅ Global toast context integrated into app layout
+- ✅ Toast notifications added to all CRUD operations
+- ✅ Loading skeleton components (Skeleton, SkeletonText, SkeletonCard, SkeletonTable, SkeletonStats)
+- ✅ Smooth animations (fade-in, slide-in, scale-in animations)
+- ✅ Tailwind animation utilities (6 keyframe animations)
+- ✅ Improved empty states with animations
+- ✅ Modal animations (fade-in overlay, scale-in content)
+- ✅ Hero Icons library installed
+- ✅ All TypeScript errors resolved
+- ✅ Logout dropdown in Header (user menu with avatar and logout button)
+- ✅ Fixed hydration warning in Input component (browser extension compatibility)
+
 ### Deployment (PR32-PR34)
 - [ ] AWS/Azure setup
 - [ ] Database migration strategy
@@ -204,10 +219,10 @@
 - ✅ **PR28: Frontend Payment List Page (PaymentList component, /payments page, statistics)**
 
 ### Next Up
-- 📋 PR29: UI Polish & UX Improvements (loading states, error toasts, animations)
+- 📋 PR30: Performance Optimization (pagination, caching, database indexes)
 
 ### Remaining
-- 📋 PR29-PR34: UI polish, performance optimization, documentation, and deployment
+- 📋 PR30-PR34: Performance optimization, documentation, and deployment
 
 ## Known Issues
 
@@ -215,8 +230,7 @@
 2. ⚠️ **JWT Secret Key**: JWT secret in application.properties should be replaced with secure key for production
 3. **Next.js Build Cache**: If encountering "Cannot find module" errors, clear `.next` directory and restart dev server
 4. **Payment Pagination**: Payment list loads all payments at once (no pagination yet) - will be addressed in PR30
-5. **UI Polish**: Loading states, error toasts, and UX improvements pending (PR29)
-6. **Deployment**: Not yet configured (PR32+)
+5. **Deployment**: Not yet configured (PR32+)
 
 ## Performance Status
 
@@ -261,7 +275,7 @@
 12. ✅ **PR26**: Frontend invoice management - edit (COMPLETE)
 13. ✅ **PR27**: Frontend payment recording (Payment form, payment modal integration) - COMPLETE
 14. ✅ **PR28**: Frontend payment list page - COMPLETE
-15. 📋 **PR29**: UI polish and UX improvements
+15. ✅ **PR29**: UI polish and UX improvements - COMPLETE
 16. 📋 **PR30**: Performance optimization
 17. 📋 **PR31-PR34**: Deployment to AWS/Azure
 
@@ -318,6 +332,18 @@
 - Payment-to-invoice navigation
 - Payment date format fix (converting date to LocalDateTime for backend)
 - All payment management features functional
+
+**✅ Frontend UI polish (PR29) is complete:**
+- Toast notification system with 4 variants (success, error, info, warning)
+- Global toast context integrated throughout the application
+- Toast notifications on all CRUD operations for user feedback
+- Loading skeleton components for better perceived performance
+- Smooth animations (fade-in, slide-in, scale-in) across all components
+- Improved empty states with animations
+- Modal animations for better UX
+- Hero Icons library integrated
+- Logout dropdown in Header with user menu and logout button
+- Fixed hydration warnings from browser extensions (Input component)
 
 **✅ Frontend invoice management (PR24-PR26) is complete:**
 - Invoice list page with status filtering and summary statistics

@@ -135,7 +135,7 @@ export const TableEmpty = ({ colSpan, message = 'No data available' }: { colSpan
   return (
     <tr>
       <td colSpan={colSpan} className="px-6 py-12 text-center">
-        <div className="flex flex-col items-center justify-center">
+        <div className="flex flex-col items-center justify-center animate-fade-in">
           <svg
             className="mb-3 h-12 w-12 text-gray-300"
             fill="none"

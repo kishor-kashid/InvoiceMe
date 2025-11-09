@@ -8,6 +8,7 @@ import { useState, useEffect, useCallback } from 'react';
 import { useRouter } from 'next/navigation';
 import { invoiceService, customerService } from '@/services';
 import { Invoice, InvoiceStatus, CreateInvoiceRequest, UpdateInvoiceRequest, InvoiceFilters, Payment, CreatePaymentRequest, ApiError, Customer } from '@/types';
+import { useToast } from '@/components/ui';
 
 export interface InvoiceFormData {
   customerId: string;
@@ -36,6 +37,7 @@ export interface FormErrors {
 
 export const useInvoiceViewModel = () => {
   const router = useRouter();
+  const toast = useToast();
   const [invoices, setInvoices] = useState<Invoice[]>([]);
   const [selectedInvoice, setSelectedInvoice] = useState<Invoice | null>(null);
   const [payments, setPayments] = useState<Payment[]>([]);
@@ -133,6 +135,8 @@ export const useInvoiceViewModel = () => {
       // Refresh invoice list
       await loadInvoices();
       
+      toast.success('Invoice created successfully');
+      
       // Navigate to invoice detail page
       router.push(`/invoices/${newInvoice.id}`);
       return true;
@@ -153,7 +157,9 @@ export const useInvoiceViewModel = () => {
         });
         setFormErrors(backendErrors);
       } else {
-        setFormErrors({ general: apiError.message || 'Failed to create invoice' });
+        const errorMessage = apiError.message || 'Failed to create invoice';
+        setFormErrors({ general: errorMessage });
+        toast.error(errorMessage);
       }
       
       console.error('Create invoice error:', err);
@@ -197,6 +203,8 @@ export const useInvoiceViewModel = () => {
       // Refresh invoice list
       await loadInvoices();
       
+      toast.success('Invoice updated successfully');
+      
       return true;
     } catch (err) {
       const apiError = err as ApiError;
@@ -235,10 +243,14 @@ export const useInvoiceViewModel = () => {
       // Refresh invoice list
       await loadInvoices();
       
+      toast.success('Invoice marked as sent successfully');
+      
       return true;
     } catch (err) {
       const apiError = err as ApiError;
-      setError(apiError.message || 'Failed to mark invoice as sent');
+      const errorMessage = apiError.message || 'Failed to mark invoice as sent';
+      setError(errorMessage);
+      toast.error(errorMessage);
       console.error('Mark as sent error:', err);
       return false;
     } finally {
@@ -263,10 +275,14 @@ export const useInvoiceViewModel = () => {
       // Refresh invoice list
       await loadInvoices();
       
+      toast.success('Payment recorded successfully');
+      
       return true;
     } catch (err) {
       const apiError = err as ApiError;
-      setError(apiError.message || 'Failed to record payment');
+      const errorMessage = apiError.message || 'Failed to record payment';
+      setError(errorMessage);
+      toast.error(errorMessage);
       console.error('Record payment error:', err);
       return false;
     } finally {
@@ -290,10 +306,14 @@ export const useInvoiceViewModel = () => {
         setSelectedInvoice(null);
       }
       
+      toast.success('Invoice deleted successfully');
+      
       return true;
     } catch (err) {
       const apiError = err as ApiError;
-      setError(apiError.message || 'Failed to delete invoice');
+      const errorMessage = apiError.message || 'Failed to delete invoice';
+      setError(errorMessage);
+      toast.error(errorMessage);
       console.error('Delete invoice error:', err);
       return false;
     } finally {
