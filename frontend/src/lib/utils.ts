@@ -13,12 +13,18 @@ export function cn(...classes: (string | undefined | null | false)[]): string {
 
 /**
  * Formats a date to a readable string
- * @param date - Date to format
+ * @param date - Date to format (can be null/undefined)
  * @param locale - Locale to use (default: 'en-US')
- * @returns Formatted date string
+ * @returns Formatted date string or 'N/A' if date is invalid
  */
-export function formatDate(date: Date | string, locale = 'en-US'): string {
+export function formatDate(date: Date | string | null | undefined, locale = 'en-US'): string {
+  if (!date) return 'N/A';
+  
   const dateObj = typeof date === 'string' ? new Date(date) : date;
+  
+  // Check if date is valid
+  if (isNaN(dateObj.getTime())) return 'N/A';
+  
   return dateObj.toLocaleDateString(locale, {
     year: 'numeric',
     month: 'long',
@@ -28,11 +34,17 @@ export function formatDate(date: Date | string, locale = 'en-US'): string {
 
 /**
  * Formats a date to a short string (MM/DD/YYYY)
- * @param date - Date to format
- * @returns Short date string
+ * @param date - Date to format (can be null/undefined)
+ * @returns Short date string or 'N/A' if date is invalid
  */
-export function formatShortDate(date: Date | string): string {
+export function formatShortDate(date: Date | string | null | undefined): string {
+  if (!date) return 'N/A';
+  
   const dateObj = typeof date === 'string' ? new Date(date) : date;
+  
+  // Check if date is valid
+  if (isNaN(dateObj.getTime())) return 'N/A';
+  
   return dateObj.toLocaleDateString('en-US', {
     year: 'numeric',
     month: '2-digit',
