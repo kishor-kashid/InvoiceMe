@@ -262,13 +262,45 @@ Customer (1) ──< (many) Invoice (1) ──< (many) Payment
 **Current Status**: Frontend foundation complete with full MVVM implementation. Type system, API services, UI components, authentication, dashboard, customer management, invoice management, and payment management all functional. Customer CRUD complete (PR22-PR23). Invoice CRUD complete (PR24-PR26). Payment management complete (PR27-PR28). Ready for UI polish (PR29+) and deployment (PR30+).
 
 **Key Frontend Patterns**:
-- **Money Object Handling**: Backend sends monetary values as `{amount: number, currency: string}` objects. Frontend components correctly extract `.amount` and `.currency` properties for display and calculations.
+- **Money Object Handling**: Backend sends monetary values as `{amount: number, currency: string}` objects. Frontend components correctly extract `.amount` and `.currency` properties for display and calculations. **Exception**: When creating/updating invoices, `unitPrice` is sent as a number (not Money object) to match backend DTO expectations.
 - **Form Validation**: Client-side validation in ViewModels with backend error mapping. Validation includes field-level (required, format) and business rules (date ranges, payment amounts).
 - **Component Reusability**: CustomerForm and InvoiceForm support both create and edit modes. LineItemForm is reusable for dynamic line item management. PaymentForm is reusable for payment recording.
 - **Status Management**: InvoiceStatusBadge component provides consistent status display across all pages. Status-based conditional rendering for actions (Mark as Sent, Record Payment).
 - **Suspense Boundaries**: Next.js App Router requires Suspense boundaries for components using `useSearchParams`. Proper placement ensures correct server-side rendering.
 - **Date/Time Handling**: Payment dates are converted from HTML date input format (`YYYY-MM-DD`) to LocalDateTime format (`YYYY-MM-DDTHH:mm:ss`) for backend compatibility.
-- **Type Safety**: LineItem interface uses `total: Money` instead of `amount: Money` to match backend DTO structure.
+- **Type Safety**: LineItem interface uses `total: Money` instead of `amount: Money` to match backend DTO structure. CreateInvoiceRequest and UpdateInvoiceRequest use `unitPrice: number` (not Money) for API requests.
 - **Authentication Flow**: Logout dropdown in Header provides user menu with logout functionality. Integrates with AuthContext for token management and navigation.
 - **Hydration Warnings**: Input components use `suppressHydrationWarning` to handle browser extension attributes (password managers, form fillers) without console warnings.
+
+## Deployment Patterns (PR33-PR34)
+
+### AWS Deployment Architecture
+- **Backend**: Spring Boot application on EC2 instance (port 8080)
+- **Frontend**: Next.js server on EC2 instance (port 3000) - NOT static S3 hosting
+- **Database**: AWS RDS PostgreSQL
+- **Reason for Server Deployment**: Dynamic routes require server-side rendering (cannot use static export)
+
+### Environment Variable Management
+- **Location**: `/etc/invoiceme/environment` (systemd EnvironmentFile)
+- **Naming Convention**: Use Spring Boot property names for automatic mapping:
+  - `SPRING_DATASOURCE_URL` → `spring.datasource.url`
+  - `SPRING_DATASOURCE_USERNAME` → `spring.datasource.username`
+  - `SPRING_DATASOURCE_PASSWORD` → `spring.datasource.password`
+  - `SPRING_WEB_CORS_ALLOWED_ORIGINS` → `spring.web.cors.allowed-origins`
+- **CORS Configuration**: Automatically includes EC2 IP in allowed origins during deployment
+
+### Systemd Service Pattern
+- **Backend Service**: `invoiceme-backend.service`
+  - Uses `EnvironmentFile=/etc/invoiceme/environment`
+  - Runs as dedicated service user (`invoiceme`)
+  - Logs to `/opt/invoiceme/logs/`
+- **Frontend Service**: `invoiceme-frontend.service`
+  - Runs Next.js server (`npm start`)
+  - Environment variables for API URL
+  - Logs to `/opt/invoiceme/logs/`
+
+### Deployment Scripts Pattern
+- **setup-ec2.sh**: One-time EC2 environment setup (OS detection, package installation)
+- **deploy-backend.sh**: Backend deployment (git pull, Maven build, JAR deployment, systemd service)
+- **deploy-frontend.sh**: Frontend deployment (deprecated for S3, now manual EC2 deployment)
 

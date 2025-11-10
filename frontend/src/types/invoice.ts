@@ -45,15 +45,19 @@ export interface CreateInvoiceRequest {
   issueDate: string;
   dueDate: string;
   currency: string;
-  lineItems: Omit<LineItem, 'id' | 'total'>[];
+  lineItems: {
+    description: string;
+    quantity: number;
+    unitPrice: number; // Backend expects number, not Money object
+  }[];
   notes?: string;
 }
 
 export interface UpdateInvoiceRequest {
   issueDate: string;
   dueDate: string;
-  lineItems: Omit<LineItem, 'id' | 'total'>[];
   notes?: string;
+  // Note: Backend does not support updating line items
 }
 
 export interface InvoiceListResponse {

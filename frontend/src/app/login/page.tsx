@@ -4,14 +4,15 @@
 
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, Suspense } from 'react';
 import { useRouter, useSearchParams } from 'next/navigation';
 import { useAuth } from '@/contexts/AuthContext';
 import useAuthViewModel from '@/viewmodels/useAuthViewModel';
 import Button from '@/components/ui/Button';
 import Input from '@/components/ui/Input';
+import Spinner from '@/components/ui/Spinner';
 
-export default function LoginPage() {
+function LoginFormContent() {
   const router = useRouter();
   const searchParams = useSearchParams();
   const { isAuthenticated } = useAuth();
@@ -196,6 +197,18 @@ export default function LoginPage() {
         </div>
       </div>
     </div>
+  );
+}
+
+export default function LoginPage() {
+  return (
+    <Suspense fallback={
+      <div className="flex min-h-screen items-center justify-center">
+        <Spinner size="lg" label="Loading..." />
+      </div>
+    }>
+      <LoginFormContent />
+    </Suspense>
   );
 }
 
