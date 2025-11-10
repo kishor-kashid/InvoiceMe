@@ -288,13 +288,18 @@ export default function InvoiceForm({
       <div className="bg-white rounded-xl border border-gray-200 p-6">
         <div className="mb-4 border-b border-gray-200 pb-4">
           <h3 className="text-xl font-semibold text-gray-900">Line Items</h3>
+          {invoice && (
+            <p className="mt-1 text-sm text-gray-600">
+              Note: Line items cannot be edited after invoice creation. Create a new invoice to modify line items.
+            </p>
+          )}
         </div>
         <div>
           <LineItemForm
             lineItems={lineItems}
             onChange={handleLineItemsChange}
             errors={errors.lineItems ? { 0: errors.lineItems } : undefined}
-            disabled={isLoading}
+            disabled={!!invoice || isLoading}
             currency={formData.currency || DEFAULT_CURRENCY}
           />
         </div>

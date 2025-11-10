@@ -224,12 +224,22 @@
 - ✅ Test execution time: 16-32 seconds
 
 ### Deployment (PR33-PR34)
-- [ ] AWS EC2 setup scripts (deploy-backend.sh, setup-ec2.sh)
-- [ ] AWS S3 configuration (deploy-frontend.sh)
-- [ ] AWS RDS setup (PostgreSQL production database)
-- [ ] Environment variables for production (.env.production.example)
-- [ ] Deployment documentation (docs/AWS_SETUP.md, docs/DEPLOYMENT.md)
-- [ ] Production deployment execution
+- ✅ PR33: AWS Deployment Preparation - COMPLETE
+  - ✅ EC2 setup scripts (setup-ec2.sh, deploy-backend.sh, deploy-frontend.sh)
+  - ✅ AWS RDS setup documentation (docs/AWS_SETUP.md)
+  - ✅ Environment variables template (env.production.example)
+  - ✅ Deployment documentation (docs/DEPLOYMENT.md, docs/ENVIRONMENT_VARIABLES.md)
+  - ✅ Spring Boot property naming conventions documented
+- 🔄 PR34: Production Deployment - IN PROGRESS
+  - ✅ RDS PostgreSQL instance created and configured
+  - ✅ EC2 instance setup complete (Java 17, Maven, Node.js, npm)
+  - ✅ Backend deployed and running (systemd service: invoiceme-backend)
+  - ✅ Frontend deployed as Next.js server (systemd service: invoiceme-frontend)
+  - ✅ Environment variables configured (`/etc/invoiceme/environment`)
+  - ✅ CORS configuration fixed (EC2 IP included)
+  - ✅ Invoice creation bug fixed (unitPrice deserialization)
+  - ✅ Files synchronized: invoice.ts, useInvoiceViewModel.ts, utils.ts
+  - ⏳ Final testing and verification pending
 
 ## Current Status
 
@@ -260,11 +270,10 @@
 - ✅ **PR32: End-to-End Testing (Playwright framework, 3 smoke tests, 100% pass rate)**
 
 ### Next Up
-- 📋 PR33: AWS Deployment Preparation (EC2/S3/RDS setup, deployment scripts, documentation)
+- 📋 PR34: Production Deployment - Final verification and testing
 
 ### Remaining
-- 📋 PR33: AWS Deployment Preparation
-- 📋 PR34: Production Deployment (Actual deployment to AWS)
+- 📋 PR34: Production Deployment - Complete testing and verification
 
 ## Known Issues
 
@@ -273,7 +282,12 @@
 3. **Next.js Build Cache**: If encountering "Cannot find module" errors, clear `.next` directory and restart dev server
 4. ✅ **Documentation**: Technical writeup complete (PR31) - 6 documents, ~44 pages
 5. ✅ **E2E Testing**: Smoke test suite complete (PR32) - 3 tests, 100% reliable
-6. **Deployment**: Not yet configured (PR33+)
+6. ✅ **Deployment Preparation**: Complete (PR33) - Scripts and documentation ready
+7. 🔄 **Production Deployment**: In progress (PR34) - Backend and frontend deployed to EC2
+8. ✅ **Invoice Creation Bug**: Fixed - unitPrice now sent as number instead of Money object
+9. ✅ **Environment Variables**: Fixed - Using Spring Boot property naming (SPRING_DATASOURCE_*)
+10. ✅ **CORS Configuration**: Fixed - EC2 IP automatically included in allowed origins
+11. **S3 Bucket**: Created but unused - Frontend runs as Next.js server on EC2 (not static hosting)
 
 ## Performance Status
 
@@ -333,8 +347,8 @@
 16. ✅ **PR30**: Performance optimization (Database indexes, pagination, connection pooling) - COMPLETE
 17. ✅ **PR31**: Documentation and Technical Writeup - COMPLETE (~44 pages, 6 documents)
 18. ✅ **PR32**: End-to-End Testing (Playwright framework, smoke tests, performance fixes) - COMPLETE
-19. 📋 **PR33**: AWS Deployment Preparation (EC2/S3/RDS setup, deployment scripts, documentation)
-20. 📋 **PR34**: Production Deployment (Actual deployment to AWS)
+19. ✅ **PR33**: AWS Deployment Preparation (EC2/S3/RDS setup, deployment scripts, documentation) - COMPLETE
+20. 🔄 **PR34**: Production Deployment (Actual deployment to AWS) - IN PROGRESS
 
 ## Backend Completion Status
 
@@ -421,4 +435,6 @@
 - Payment date format fix (LocalDateTime conversion)
 - Backend payment list endpoint created (GET /api/payments)
 - Dashboard cleanup (removed backend API connection status text)
+- ✅ **Invoice creation bug fixed**: unitPrice now sent as number (not Money object) to match backend DTO
+- ✅ **UpdateInvoiceRequest**: Removed lineItems (backend doesn't support updating line items)
 

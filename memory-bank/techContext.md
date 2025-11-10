@@ -220,12 +220,19 @@ npm run type-check
 - JPA: `ddl-auto=update`
 - CORS: Enabled for localhost:3000
 
-### Production (Planned)
-- Database: AWS RDS or Azure Database
+### Production (Deployed)
+- Database: AWS RDS PostgreSQL
 - Logging: INFO level
-- JPA: `ddl-auto=validate`
-- CORS: Restricted to production domain
+- JPA: `ddl-auto=validate` (or `update` for initial setup)
+- CORS: Configured for EC2 frontend IP (http://EC2_IP:3000)
 - Security: Full JWT authentication
+- Environment Variables: `/etc/invoiceme/environment` with Spring Boot property names:
+  - `SPRING_DATASOURCE_URL` (not `DATABASE_URL`)
+  - `SPRING_DATASOURCE_USERNAME` (not `DATABASE_USERNAME`)
+  - `SPRING_DATASOURCE_PASSWORD` (not `DATABASE_PASSWORD`)
+  - `SPRING_WEB_CORS_ALLOWED_ORIGINS` (not `CORS_ALLOWED_ORIGINS`)
+- Deployment: EC2 instance running both backend (port 8080) and frontend (port 3000)
+- Services: systemd services (invoiceme-backend, invoiceme-frontend)
 
 ## Known Technical Decisions
 

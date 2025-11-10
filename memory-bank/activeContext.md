@@ -273,9 +273,31 @@
 - ✅ Cleaned up backend directory (removed incorrectly placed Node.js package files)
 - ✅ TypeScript configuration updated (excluded E2E files from type checking)
 
-### Upcoming (PR33+)
-- 📋 PR33: AWS Deployment Preparation (EC2 setup scripts, S3 config, RDS setup, deployment documentation)
-- 📋 PR34: Production Deployment (Actual deployment to AWS: EC2 backend, S3 frontend, RDS database)
+### Completed (PR33)
+- ✅ AWS Deployment Preparation scripts and documentation
+  - ✅ `setup-ec2.sh` - EC2 environment setup (Java 17, Maven, PostgreSQL client, Git, AWS CLI)
+  - ✅ `deploy-backend.sh` - Backend deployment script with systemd service creation
+  - ✅ `deploy-frontend.sh` - Frontend deployment script (S3 static hosting - deprecated, now using Next.js server)
+  - ✅ `env.production.example` - Production environment variables template
+  - ✅ `docs/AWS_SETUP.md` - Complete AWS infrastructure setup guide (RDS, EC2, S3)
+  - ✅ `docs/DEPLOYMENT.md` - Comprehensive deployment guide with troubleshooting
+  - ✅ `docs/ENVIRONMENT_VARIABLES.md` - Environment variables reference
+  - ✅ Environment variable naming: Using Spring Boot property names (SPRING_DATASOURCE_*, SPRING_WEB_CORS_ALLOWED_ORIGINS)
+
+### In Progress (PR34)
+- 🔄 Production Deployment to AWS
+  - ✅ RDS PostgreSQL instance configured
+  - ✅ EC2 instance setup (backend and frontend on same instance)
+  - ✅ Backend deployed and running on EC2 (port 8080)
+  - ✅ Frontend deployed as Next.js server on EC2 (port 3000) - NOT S3 static hosting
+  - ✅ Environment variables configured (`/etc/invoiceme/environment`)
+  - ✅ Systemd services created (invoiceme-backend, invoiceme-frontend)
+  - ✅ CORS configuration fixed (EC2 IP included in allowed origins)
+  - ✅ Invoice creation bug fixed (unitPrice deserialization error)
+  - ✅ Files fixed on EC2: invoice.ts, useInvoiceViewModel.ts, utils.ts
+
+### Upcoming
+- 📋 PR34 completion: Final deployment verification and testing
 
 ## Active Decisions and Considerations
 
@@ -307,7 +329,38 @@
 
 ## Current Blockers
 
-None - All backend features complete and tested.
+None - All backend features complete and tested. Deployment in progress.
+
+## Recent Deployment Fixes
+
+### Environment Variable Configuration
+- **Issue**: Backend not reading environment variables correctly
+- **Fix**: Changed to Spring Boot property naming convention:
+  - `DATABASE_URL` → `SPRING_DATASOURCE_URL`
+  - `DATABASE_USERNAME` → `SPRING_DATASOURCE_USERNAME`
+  - `DATABASE_PASSWORD` → `SPRING_DATASOURCE_PASSWORD`
+  - `CORS_ALLOWED_ORIGINS` → `SPRING_WEB_CORS_ALLOWED_ORIGINS`
+- **Implementation**: Using `EnvironmentFile=/etc/invoiceme/environment` in systemd service
+
+### Frontend Deployment Architecture
+- **Original Plan**: Static export to S3
+- **Actual Implementation**: Next.js server on EC2 (port 3000)
+- **Reason**: Dynamic routes require server-side rendering
+- **Files**: `next.config.js` configured without `output: 'export'`
+
+### Invoice Creation Bug Fix
+- **Issue**: JSON deserialization error - `Cannot deserialize value of type java.lang.Double from Object value`
+- **Root Cause**: Frontend sending `unitPrice` as Money object `{amount, currency}` but backend expecting `Double`
+- **Files Fixed**:
+  1. `frontend/src/types/invoice.ts` - Updated `CreateInvoiceRequest` and `UpdateInvoiceRequest` types
+  2. `frontend/src/viewmodels/useInvoiceViewModel.ts` - Fixed `createInvoice` and `updateInvoice` functions
+  3. `frontend/src/lib/utils.ts` - Fixed utility functions
+- **Solution**: Frontend now sends `unitPrice` as number, not Money object
+
+### AWS Resources
+- **S3 Bucket**: Created but not used (frontend runs on EC2 server, not static hosting)
+- **EC2 Instance**: Running both backend (port 8080) and frontend (port 3000)
+- **RDS PostgreSQL**: Production database configured
 
 ## Testing Status
 

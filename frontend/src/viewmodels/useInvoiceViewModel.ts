@@ -122,10 +122,7 @@ export const useInvoiceViewModel = () => {
         lineItems: formData.lineItems.map(item => ({
           description: item.description.trim(),
           quantity: item.quantity,
-          unitPrice: {
-            amount: item.unitPrice,
-            currency: formData.currency
-          },
+          unitPrice: item.unitPrice, // Send as number, not Money object
         })),
         notes: formData.notes?.trim() || undefined,
       };
@@ -186,14 +183,6 @@ export const useInvoiceViewModel = () => {
       const request: UpdateInvoiceRequest = {
         issueDate: formData.issueDate,
         dueDate: formData.dueDate,
-        lineItems: formData.lineItems.map(item => ({
-          description: item.description.trim(),
-          quantity: item.quantity,
-          unitPrice: {
-            amount: item.unitPrice,
-            currency: formData.currency
-          },
-        })),
         notes: formData.notes?.trim() || undefined,
       };
 
